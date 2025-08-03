@@ -12,13 +12,6 @@
     "resolveJsonModule": true,
     "types": ["cypress", "node"]
   },
-  "include": [
-    "**/*.ts",
-    "**/*.tsx",
-    "support/cypress.d.ts"
-  ],
-  "exclude": [
-    "node_modules",
-    "results"
-  ]
-} 
+  "include": ["**/*.ts", "**/*.tsx", "support/cypress.d.ts"],
+  "exclude": ["node_modules", "results"]
+}

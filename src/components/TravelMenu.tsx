@@ -25,4 +25,4 @@ const TravelMenu: React.FC = () => {
   );
 };
 
-export default TravelMenu; 
+export default TravelMenu;

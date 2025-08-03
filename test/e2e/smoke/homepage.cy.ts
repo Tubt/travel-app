@@ -1,196 +1,199 @@
 /// <reference types="cypress" />
 
-import { HomePage } from '../../pageObjects/HomePage'
-import { TestHelpers } from '../../support/helpers/testHelpers'
+import { HomePage } from '../../pageObjects/HomePage';
+import { TestHelpers } from '../../support/helpers/testHelpers';
 
 describe('Homepage Smoke Tests', () => {
-  let homePage: HomePage
+  let homePage: HomePage;
 
   beforeEach(() => {
-    homePage = new HomePage()
-    homePage.visit()
-  })
+    homePage = new HomePage();
+    homePage.visit();
+  });
 
   describe('Page Load Tests', () => {
     it('should load homepage successfully', () => {
       // Verify page title
-      homePage.verifyPageTitle()
-      
+      homePage.verifyPageTitle();
+
       // Verify main elements are visible
-      cy.get('.header').should('be.visible')
-      cy.get('.banner-slider').should('be.visible')
-      cy.get('.grid').should('be.visible')
-      cy.get('footer').should('be.visible')
-      
+      cy.get('.header').should('be.visible');
+      cy.get('.banner-slider').should('be.visible');
+      cy.get('.grid').should('be.visible');
+      cy.get('footer').should('be.visible');
+
       // Take screenshot for visual validation
-      TestHelpers.takeScreenshot('homepage-loaded')
-    })
+      TestHelpers.takeScreenshot('homepage-loaded');
+    });
 
     it('should display all destination cards', () => {
-      homePage.verifyDestinationCardsVisible()
-      
+      homePage.verifyDestinationCardsVisible();
+
       // Verify popular destinations are visible
-      cy.contains('Hà Nội').should('be.visible')
-      cy.contains('Sapa').should('be.visible')
-      cy.contains('Hạ Long').should('be.visible')
-      cy.contains('Phú Quốc').should('be.visible')
-    })
+      cy.contains('Hà Nội').should('be.visible');
+      cy.contains('Sapa').should('be.visible');
+      cy.contains('Hạ Long').should('be.visible');
+      cy.contains('Phú Quốc').should('be.visible');
+    });
 
     it('should display company logo and branding', () => {
-      cy.get('.logo-text').should('contain', 'DULICHMETOO')
-      cy.get('footer').should('contain', 'CÔNG TY DU LỊCH DỊCH VỤ METOO')
-      cy.get('footer').should('contain', '0909009009')
-    })
-  })
+      cy.get('.logo-text').should('contain', 'DULICHMETOO');
+      cy.get('footer').should('contain', 'CÔNG TY DU LỊCH DỊCH VỤ METOO');
+      cy.get('footer').should('contain', '0909009009');
+    });
+  });
 
   describe('Banner Slider Tests', () => {
     it('should display banner slider with navigation', () => {
-      homePage.verifySliderIsVisible()
-      
+      homePage.verifySliderIsVisible();
+
       // Verify navigation buttons
-      cy.get('.prev-btn').should('be.visible')
-      cy.get('.next-btn').should('be.visible')
-      cy.get('.slider-dots').should('be.visible')
-    })
+      cy.get('.prev-btn').should('be.visible');
+      cy.get('.next-btn').should('be.visible');
+      cy.get('.slider-dots').should('be.visible');
+    });
 
     it('should navigate through slides using buttons', () => {
       // Click next button
-      homePage.clickNextSlide()
-      cy.wait(500)
-      
-      // Click previous button  
-      homePage.clickPrevSlide()
-      cy.wait(500)
-      
+      homePage.clickNextSlide();
+      cy.wait(500);
+
+      // Click previous button
+      homePage.clickPrevSlide();
+      cy.wait(500);
+
       // Click on dot navigation
-      homePage.clickSliderDot(2)
-      cy.wait(500)
-    })
-  })
+      homePage.clickSliderDot(2);
+      cy.wait(500);
+    });
+  });
 
   describe('Search Functionality Tests', () => {
     it('should display search section with all fields', () => {
-      homePage.verifySearchSectionVisible()
-      
+      homePage.verifySearchSectionVisible();
+
       // Verify all search form elements
-      cy.get('[data-testid="destination-select"]').should('be.visible')
-      cy.get('[data-testid="checkin-input"]').should('be.visible')
-      cy.get('[data-testid="duration-select"]').should('be.visible')
-      cy.get('[data-testid="guests-select"]').should('be.visible')
-      cy.get('[data-testid="search-button"]').should('be.visible')
-    })
+      cy.get('[data-testid="destination-select"]').should('be.visible');
+      cy.get('[data-testid="checkin-input"]').should('be.visible');
+      cy.get('[data-testid="duration-select"]').should('be.visible');
+      cy.get('[data-testid="guests-select"]').should('be.visible');
+      cy.get('[data-testid="search-button"]').should('be.visible');
+    });
 
     it('should perform basic search', () => {
       const searchParams = {
-        destination: 'Hà Nội'
-      }
-      
-      homePage.searchForDestination(searchParams)
-      
+        destination: 'Hà Nội',
+      };
+
+      homePage.searchForDestination(searchParams);
+
       // Verify search was performed (page should react)
-      TestHelpers.waitForPageLoad()
-    })
-  })
+      TestHelpers.waitForPageLoad();
+    });
+  });
 
   describe('Destination Cards Tests', () => {
     it('should interact with destination cards', () => {
-      const destinationName = 'Hà Nội'
-      
+      const destinationName = 'Hà Nội';
+
       // Verify card is visible
-      homePage.getDestinationCard(destinationName).should('be.visible')
-      
+      homePage.getDestinationCard(destinationName).should('be.visible');
+
       // Test like functionality
-      homePage.likeDestination(destinationName)
-      
+      homePage.likeDestination(destinationName);
+
       // Verify like button response
-      homePage.getDestinationCard(destinationName)
+      homePage
+        .getDestinationCard(destinationName)
         .find('.like-btn')
-        .should('contain', '❤️')
-    })
+        .should('contain', '❤️');
+    });
 
     it('should open destination details modal', () => {
-      const destinationName = 'Hà Nội'
-      
+      const destinationName = 'Hà Nội';
+
       // Open modal
-      homePage.openDestinationDetails(destinationName)
-      
+      homePage.openDestinationDetails(destinationName);
+
       // Verify modal is open and contains expected content
-      homePage.verifyModalIsOpen(destinationName)
-      homePage.verifyModalContent(destinationName)
-      
+      homePage.verifyModalIsOpen(destinationName);
+      homePage.verifyModalContent(destinationName);
+
       // Close modal
-      homePage.closeModal()
-    })
-  })
+      homePage.closeModal();
+    });
+  });
 
   describe('Footer Tests', () => {
     it('should display footer with all sections', () => {
-      homePage.scrollToFooter()
-      
+      homePage.scrollToFooter();
+
       // Verify footer sections
-      cy.get('footer').should('contain', 'HỖ TRỢ KHÁCH HÀNG')
-      cy.get('footer').should('contain', 'THÔNG TIN CẦN BIẾT')
-      cy.get('footer').should('contain', 'DỊCH VỤ')
-      cy.get('footer').should('contain', 'DU LỊCH THÔNG MINH')
-    })
+      cy.get('footer').should('contain', 'HỖ TRỢ KHÁCH HÀNG');
+      cy.get('footer').should('contain', 'THÔNG TIN CẦN BIẾT');
+      cy.get('footer').should('contain', 'DỊCH VỤ');
+      cy.get('footer').should('contain', 'DU LỊCH THÔNG MINH');
+    });
 
     it('should allow newsletter signup', () => {
-      const email = TestHelpers.generateRandomEmail()
-      
-      homePage.scrollToFooter()
-      homePage.signupNewsletter(email)
-      
+      const email = TestHelpers.generateRandomEmail();
+
+      homePage.scrollToFooter();
+      homePage.signupNewsletter(email);
+
       // Verify signup attempt was made
-      cy.get('.newsletter-signup').should('be.visible')
-    })
-  })
+      cy.get('.newsletter-signup').should('be.visible');
+    });
+  });
 
   describe('Responsive Design Tests', () => {
     it('should display correctly on mobile', () => {
-      cy.viewport(375, 667)
-      
+      cy.viewport(375, 667);
+
       // Verify main elements are still visible
-      cy.get('.header').should('be.visible')
-      cy.get('.grid').should('be.visible')
-      
+      cy.get('.header').should('be.visible');
+      cy.get('.grid').should('be.visible');
+
       // Take screenshot for visual comparison
-      TestHelpers.takeScreenshot('homepage-mobile')
-    })
+      TestHelpers.takeScreenshot('homepage-mobile');
+    });
 
     it('should display correctly on tablet', () => {
-      cy.viewport(768, 1024)
-      
+      cy.viewport(768, 1024);
+
       // Verify main elements are still visible
-      cy.get('.header').should('be.visible')
-      cy.get('.grid').should('be.visible')
-      
+      cy.get('.header').should('be.visible');
+      cy.get('.grid').should('be.visible');
+
       // Take screenshot for visual comparison
-      TestHelpers.takeScreenshot('homepage-tablet')
-    })
+      TestHelpers.takeScreenshot('homepage-tablet');
+    });
 
     it('should display correctly on desktop', () => {
-      cy.viewport(1280, 720)
-      
+      cy.viewport(1280, 720);
+
       // Verify main elements are still visible
-      cy.get('.header').should('be.visible')
-      cy.get('.grid').should('be.visible')
-      
+      cy.get('.header').should('be.visible');
+      cy.get('.grid').should('be.visible');
+
       // Take screenshot for visual comparison
-      TestHelpers.takeScreenshot('homepage-desktop')
-    })
-  })
+      TestHelpers.takeScreenshot('homepage-desktop');
+    });
+  });
 
   describe('Performance Tests', () => {
     it('should load page within acceptable time', () => {
-      const startTime = Date.now()
-      
-      homePage.visit()
-      
-      cy.get('.grid').should('be.visible').then(() => {
-        const loadTime = Date.now() - startTime
-        expect(loadTime).to.be.lessThan(5000) // 5 seconds max
-        cy.log(`Page load time: ${loadTime}ms`)
-      })
-    })
-  })
-}) 
+      const startTime = Date.now();
+
+      homePage.visit();
+
+      cy.get('.grid')
+        .should('be.visible')
+        .then(() => {
+          const loadTime = Date.now() - startTime;
+          expect(loadTime).to.be.lessThan(5000); // 5 seconds max
+          cy.log(`Page load time: ${loadTime}ms`);
+        });
+    });
+  });
+});

@@ -1,4 +1,4 @@
-import "./App.css";
+import './App.css';
 
 // Components
 import {
@@ -9,11 +9,11 @@ import {
   SearchSection,
   DestinationGrid,
   DestinationModal,
-  Footer
-} from "./components";
+  Footer,
+} from './components';
 
 // Hooks
-import { useDestinationModal } from "./hooks";
+import { useDestinationModal } from './hooks';
 
 function App() {
   const {
@@ -22,7 +22,7 @@ function App() {
     isModalOpen,
     handleLike,
     openModal,
-    closeModal
+    closeModal,
   } = useDestinationModal();
 
   return (
@@ -32,37 +32,29 @@ function App() {
 
       {/* Main Layout with Sidebars */}
       <div className="main-layout">
-        <Sidebar 
-          position="left" 
-          title="Hà Giang" 
-          subtitle="Ruộng bậc thang" 
-        />
-        
+        <Sidebar position="left" title="Hà Giang" subtitle="Ruộng bậc thang" />
+
         <div className="main-content">
           <BannerSlider />
-          
+
           {/* Travel Menu Navigation */}
           <TravelMenu />
 
           {/* Search Sections */}
           <SearchSection />
 
-          <DestinationGrid 
+          <DestinationGrid
             likes={likes}
             onLike={handleLike}
             onOpenModal={openModal}
           />
         </div>
-        
-        <Sidebar 
-          position="right" 
-          title="Sapa" 
-          subtitle="Thị trấn trong mây" 
-        />
+
+        <Sidebar position="right" title="Sapa" subtitle="Thị trấn trong mây" />
       </div>
 
       {/* Modal */}
-      <DestinationModal 
+      <DestinationModal
         isOpen={isModalOpen}
         destination={selectedDestination}
         onClose={closeModal}

@@ -7,15 +7,15 @@ const SearchSection: React.FC = () => {
         <div className="search-box">
           <h3>TÌM TOUR HOT THEO ĐỊA DANH, ĐIỂM ĐẾN</h3>
           <div className="search-input-group">
-            <input 
-              type="text" 
-              placeholder="Nhập thành phố / khu vực" 
+            <input
+              type="text"
+              placeholder="Nhập thành phố / khu vực"
               className="search-input"
             />
             <button className="search-btn">🔍</button>
           </div>
         </div>
-        
+
         <div className="search-box">
           <h3>TÌM TOUR THEO ĐIỂM KHỞI HÀNH</h3>
           <div className="search-filters">
@@ -45,4 +45,4 @@ const SearchSection: React.FC = () => {
   );
 };
 
-export default SearchSection; 
+export default SearchSection;
