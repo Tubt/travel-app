@@ -25,16 +25,41 @@ jobs:
           node-version: 22.13.0
           cache: 'npm'
 
-      - name: Build and run with Docker Compose
-        run: |
-          docker-compose up --build --abort-on-container-exit --exit-code-from cypress
+      - name: Install main app dependencies
+        run: npm install
 
-      - name: Copy test results from container
+      - name: Install test dependencies
+        run: |
+          cd test
+          npm install
+
+      - name: Build application
+        run: npm run build
+
+      - name: Start application server
+        run: |
+          npm run preview &
+          echo $! > .app_pid
+        env:
+          CI: true
+
+      - name: Wait for application to be ready
+        run: |
+          cd test
+          npx wait-on http://localhost:4173 --timeout 60000
+
+      - name: Run Cypress tests
+        run: |
+          cd test
+          npx cypress run --spec 'e2e/integration/userJourney.cy.ts' --env grepTags=checklist_integrated --config baseUrl=http://localhost:4173
+
+      - name: Stop application server
         if: always()
         run: |
-          docker-compose ps
-          mkdir -p test/results
-          docker cp $(docker-compose ps -q cypress):/e2e/results ./test/ || echo "No results to copy"
+          if [ -f .app_pid ]; then
+            kill $(cat .app_pid) || true
+            rm .app_pid
+          fi
 
       - name: Create test summary
         if: always()
@@ -44,8 +69,8 @@ jobs:
           echo "- **Test file:** \`userJourney.cy.ts\`" >> $GITHUB_STEP_SUMMARY
           echo "- **Tag:** \`checklist_integrated\`" >> $GITHUB_STEP_SUMMARY
           echo "- **Browser:** Chrome (headless)" >> $GITHUB_STEP_SUMMARY
-          echo "- **Base URL:** http://localhost:5173" >> $GITHUB_STEP_SUMMARY
-          echo "- **Retries:** 2" >> $GITHUB_STEP_SUMMARY
+          echo "- **Base URL:** http://localhost:4173" >> $GITHUB_STEP_SUMMARY
+          echo "- **Retries:** 1" >> $GITHUB_STEP_SUMMARY
           echo "- **Node.js:** 22.13.0" >> $GITHUB_STEP_SUMMARY
           echo "- **Triggered by:** \`${{ github.event_name }}\`" >> $GITHUB_STEP_SUMMARY
 
@@ -81,7 +106,7 @@ jobs:
           echo "1. Check the uploaded screenshots and videos" >> $GITHUB_STEP_SUMMARY
           echo "2. Review test logs above" >> $GITHUB_STEP_SUMMARY
           echo "3. Run tests locally: \`npm run test:checklist\`" >> $GITHUB_STEP_SUMMARY
-          echo "4. Check if application is working at http://localhost:5173" >> $GITHUB_STEP_SUMMARY
+          echo "4. Check if application is working at http://localhost:4173" >> $GITHUB_STEP_SUMMARY
 
       - name: Success notification
         if: success()
