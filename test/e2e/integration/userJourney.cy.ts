@@ -1,4 +1,5 @@
 /// <reference types="cypress" />
+// eslint-disable-next-line @typescript-eslint/triple-slash-reference
 /// <reference path="../../support/cypress.d.ts" />
 
 describe('Basic UI Check Tests', () => {

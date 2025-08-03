@@ -13,7 +13,7 @@ Cypress.Commands.add('selectDestination', (destinationName: string) => {
 });
 
 // Search travel command
-Cypress.Commands.add('searchTravel', (searchParams: any) => {
+Cypress.Commands.add('searchTravel', (searchParams: never) => {
   if (searchParams.destination) {
     cy.get('[data-testid="destination-select"]').select(
       searchParams.destination
@@ -58,7 +58,7 @@ Cypress.Commands.add('verifyModalContent', (destinationName: string) => {
 });
 
 // Navigate slider command
-Cypress.Commands.add('navigateSlider', (direction: any) => {
+Cypress.Commands.add('navigateSlider', (direction: never) => {
   if (typeof direction === 'number') {
     cy.get('.slider-dots .dot').eq(direction).click();
   } else if (direction === 'next') {
