@@ -1,6 +1,6 @@
-import React from 'react';
-import { destinations } from '../constants/destinations';
-import type { Destination } from '../constants/destinations';
+import React from "react";
+import { destinations } from "../constants/destinations";
+import type { Destination } from "../constants/destinations";
 
 interface DestinationGridProps {
   likes: Record<number, number>;
@@ -8,7 +8,11 @@ interface DestinationGridProps {
   onOpenModal: (destination: Destination) => void;
 }
 
-const DestinationGrid: React.FC<DestinationGridProps> = ({ likes, onLike, onOpenModal }) => {
+const DestinationGrid: React.FC<DestinationGridProps> = ({
+  likes,
+  onLike,
+  onOpenModal,
+}) => {
   return (
     <div className="grid">
       {destinations.map((dest) => (
@@ -41,4 +45,4 @@ const DestinationGrid: React.FC<DestinationGridProps> = ({ likes, onLike, onOpen
   );
 };
 
-export default DestinationGrid; 
+export default DestinationGrid;

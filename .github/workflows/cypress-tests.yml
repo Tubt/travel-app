@@ -4,13 +4,13 @@ on:
   workflow_dispatch:
     inputs:
       test_tags:
-        description: 'Test tags to run (e.g., checklist_integrated)'
+        description: "Test tags to run (e.g., checklist_integrated)"
         required: false
-        default: 'checklist_integrated'
+        default: "checklist_integrated"
 
   schedule:
     # Run daily at 2 AM UTC
-    - cron: '0 2 * * *'
+    - cron: "0 2 * * *"
 
 jobs:
   checklist-e2e:
@@ -24,7 +24,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22.13.0
-          cache: 'npm'
+          cache: "npm"
 
       - name: Install main app dependencies
         run: npm install

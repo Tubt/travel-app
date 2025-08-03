@@ -9,7 +9,9 @@ export const useBannerSlider = () => {
   };
 
   const prevSlide = () => {
-    setCurrentSlide((prev) => (prev - 1 + bannerImages.length) % bannerImages.length);
+    setCurrentSlide(
+      (prev) => (prev - 1 + bannerImages.length) % bannerImages.length,
+    );
   };
 
   const goToSlide = (index: number) => {
@@ -21,7 +23,7 @@ export const useBannerSlider = () => {
     const interval = setInterval(() => {
       nextSlide();
     }, 5000);
-    
+
     return () => clearInterval(interval);
   }, []);
 
@@ -30,6 +32,6 @@ export const useBannerSlider = () => {
     nextSlide,
     prevSlide,
     goToSlide,
-    totalSlides: bannerImages.length
+    totalSlides: bannerImages.length,
   };
-}; 
+};

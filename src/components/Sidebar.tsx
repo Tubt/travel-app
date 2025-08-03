@@ -1,14 +1,14 @@
-import React from 'react';
+import React from "react";
 
 interface SidebarProps {
-  position: 'left' | 'right';
+  position: "left" | "right";
   title: string;
   subtitle: string;
 }
 
 const Sidebar: React.FC<SidebarProps> = ({ position, title, subtitle }) => {
-  const sidebarClass = position === 'left' ? 'sidebar-left' : 'sidebar-right';
-  
+  const sidebarClass = position === "left" ? "sidebar-left" : "sidebar-right";
+
   return (
     <div className={sidebarClass}>
       <div className="sidebar-content">
@@ -19,4 +19,4 @@ const Sidebar: React.FC<SidebarProps> = ({ position, title, subtitle }) => {
   );
 };
 
-export default Sidebar; 
+export default Sidebar;

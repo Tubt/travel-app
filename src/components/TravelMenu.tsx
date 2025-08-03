@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 const TravelMenu: React.FC = () => {
   return (
@@ -25,4 +25,4 @@ const TravelMenu: React.FC = () => {
   );
 };
 
-export default TravelMenu; 
+export default TravelMenu;
