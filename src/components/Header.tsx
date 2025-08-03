@@ -1,30 +1,47 @@
 import React from "react";
+import { Link, useLocation } from "react-router-dom";
 
 const Header: React.FC = () => {
+  const location = useLocation();
+
   return (
     <header className="header">
       <div className="header-container">
         <div className="logo">
-          <span className="logo-text">DULICHMETOO</span>
-          <span className="logo-subtitle">
-            Tổ chức tour chuyên nghiệp .com.vn
-          </span>
+          <Link to="/" className="logo-link">
+            <span className="logo-text">DULICHMETOO</span>
+            <span className="logo-subtitle">
+              Tổ chức tour chuyên nghiệp .com.vn
+            </span>
+          </Link>
         </div>
 
         <nav className="main-nav">
           <div className="nav-menu">
-            <a href="#" className="nav-link active">
+            <Link
+              to="/"
+              className={`nav-link ${location.pathname === "/" ? "active" : ""}`}
+            >
               Trang chủ
-            </a>
-            <a href="#" className="nav-link">
+            </Link>
+            <Link
+              to="/tour-du-lich"
+              className={`nav-link ${location.pathname === "/tour-du-lich" ? "active" : ""}`}
+            >
               Tour Du Lịch
-            </a>
-            <a href="#" className="nav-link">
+            </Link>
+            <Link
+              to="/so-tay-du-lich"
+              className={`nav-link ${location.pathname === "/so-tay-du-lich" ? "active" : ""}`}
+            >
               Sổ tay du lịch
-            </a>
-            <a href="#" className="nav-link">
+            </Link>
+            <Link
+              to="/gioi-thieu"
+              className={`nav-link ${location.pathname === "/gioi-thieu" ? "active" : ""}`}
+            >
               Giới thiệu
-            </a>
+            </Link>
           </div>
         </nav>
 
