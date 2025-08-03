@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+    networks:
+      - travel-app-network
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+
+  cypress:
+    build:
+      context: .
+      dockerfile: Dockerfile.cypress
+    depends_on:
+      app:
+        condition: service_healthy
+    environment:
+      - CYPRESS_baseUrl=http://app:3000
+      - CYPRESS_video=true
+      - CYPRESS_screenshotOnRunFailure=true
+    volumes:
+      - ./test/results:/app/results
+    networks:
+      - travel-app-network
+    entrypoint: ["sh", "-c"]
+    command: ["sleep 1 && npm run cypress:run"]
+
+networks:
+  travel-app-network:
+    driver: bridge
+
+volumes:
+  cypress-results:
+    driver: local 

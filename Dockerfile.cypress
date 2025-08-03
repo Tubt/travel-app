@@ -1,0 +1,21 @@
+FROM cypress/included:13.15.2
+
+WORKDIR /app
+
+# Copy test package files
+COPY test/package*.json ./
+
+# Install dependencies
+RUN npm ci
+
+# Copy test source code
+COPY test/ ./
+
+# Copy main app package.json for compatibility
+COPY package.json ../package.json
+
+# Set environment variable for Cypress
+ENV CYPRESS_baseUrl=http://app:3000
+
+# Default command
+CMD ["npm", "run", "cypress:run"] 

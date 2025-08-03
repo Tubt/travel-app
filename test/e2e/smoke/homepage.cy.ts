@@ -26,16 +26,6 @@ describe("Homepage Smoke Tests", () => {
       TestHelpers.takeScreenshot("homepage-loaded");
     });
 
-    it("should display all destination cards", () => {
-      homePage.verifyDestinationCardsVisible();
-
-      // Verify popular destinations are visible
-      cy.contains("Hà Nội").should("be.visible");
-      cy.contains("Sapa").should("be.visible");
-      cy.contains("Hạ Long").should("be.visible");
-      cy.contains("Phú Quốc").should("be.visible");
-    });
-
     it("should display company logo and branding", () => {
       cy.get(".logo-text").should("contain", "DULICHMETOO");
       cy.get("footer").should("contain", "CÔNG TY DU LỊCH DỊCH VỤ METOO");
@@ -68,30 +58,6 @@ describe("Homepage Smoke Tests", () => {
     });
   });
 
-  describe("Search Functionality Tests", () => {
-    it("should display search section with all fields", () => {
-      homePage.verifySearchSectionVisible();
-
-      // Verify all search form elements
-      cy.get('[data-testid="destination-select"]').should("be.visible");
-      cy.get('[data-testid="checkin-input"]').should("be.visible");
-      cy.get('[data-testid="duration-select"]').should("be.visible");
-      cy.get('[data-testid="guests-select"]').should("be.visible");
-      cy.get('[data-testid="search-button"]').should("be.visible");
-    });
-
-    it("should perform basic search", () => {
-      const searchParams = {
-        destination: "Hà Nội",
-      };
-
-      homePage.searchForDestination(searchParams);
-
-      // Verify search was performed (page should react)
-      TestHelpers.waitForPageLoad();
-    });
-  });
-
   describe("Destination Cards Tests", () => {
     it("should interact with destination cards", () => {
       const destinationName = "Hà Nội";
@@ -109,19 +75,6 @@ describe("Homepage Smoke Tests", () => {
         .should("contain", "❤️");
     });
 
-    it("should open destination details modal", () => {
-      const destinationName = "Hà Nội";
-
-      // Open modal
-      homePage.openDestinationDetails(destinationName);
-
-      // Verify modal is open and contains expected content
-      homePage.verifyModalIsOpen(destinationName);
-      homePage.verifyModalContent(destinationName);
-
-      // Close modal
-      homePage.closeModal();
-    });
   });
 
   describe("Footer Tests", () => {

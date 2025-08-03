@@ -2,8 +2,8 @@ const { defineConfig } = require("cypress");
 
 module.exports = defineConfig({
   e2e: {
-    // Base URL for the application
-    baseUrl: "http://localhost:5173",
+    // Base URL for the application - can be overridden by environment variable
+    baseUrl: process.env.CYPRESS_baseUrl || "http://localhost:5173",
 
     // Browser settings
     viewportWidth: 1280,
