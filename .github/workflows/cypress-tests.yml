@@ -7,6 +7,7 @@ on:
         description: 'Test tags to run (e.g., checklist_integrated)'
         required: false
         default: 'checklist_integrated'
+      
   schedule:
     # Run daily at 2 AM UTC
     - cron: '0 2 * * *'
