@@ -17,4 +17,4 @@ services:
     networks:
       - travel-app-network
     entrypoint: ["sh", "-c"]
-    command: ["sleep 1 && npm run test:checklist-smoke"] 
+    command: ["sleep 1 && npm run test:checklist-smoke"]

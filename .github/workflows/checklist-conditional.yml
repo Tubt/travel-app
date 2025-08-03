@@ -52,4 +52,4 @@ jobs:
         with:
           name: cypress-results-${{ inputs.test_tags }}
           path: test/results/
-          retention-days: 30 
+          retention-days: 30

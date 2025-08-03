@@ -5,11 +5,13 @@
 Your project has the following test tags defined:
 
 ### `checklist_integrated`
+
 - **Location**: `test/e2e/integration/userJourney.cy.ts`
 - **Tests**: Homepage UI Elements, Responsive Layout Check, Content Verification
 - **Purpose**: Integration testing for core UI components
 
 ### `checklist_smoke`
+
 - **Location**: `test/e2e/smoke/homepage.cy.ts`
 - **Tests**: Page Load, Banner Slider, Destination Cards, Footer, Responsive Design
 - **Purpose**: Smoke testing for basic functionality
@@ -22,7 +24,7 @@ Your project has the following test tags defined:
 # Run all checklist_integrated tests
 npm run test:integrated
 
-# Run all checklist_smoke tests  
+# Run all checklist_smoke tests
 npm run test:smoke
 
 # Legacy - specific integration tests
@@ -64,7 +66,7 @@ To run tagged tests in Docker, update your docker-compose.yml:
 # For checklist_integrated tests
 command: ["sleep 10 && npm run test:checklist-integrated"]
 
-# For checklist_smoke tests  
+# For checklist_smoke tests
 command: ["sleep 10 && npm run test:checklist-smoke"]
 ```
 
@@ -73,6 +75,7 @@ command: ["sleep 10 && npm run test:checklist-smoke"]
 To add new test tags:
 
 1. **Add tag to test file**:
+
    ```typescript
    describe("My Test Suite", { tags: "my_new_tag" }, () => {
      it("should do something", () => {
@@ -82,6 +85,7 @@ To add new test tags:
    ```
 
 2. **Add script to test/package.json**:
+
    ```json
    {
      "scripts": {
@@ -109,4 +113,4 @@ test/
 │   └── smoke/
 │       └── homepage.cy.ts        (checklist_smoke)
 └── package.json                  (test scripts)
-``` 
+```

@@ -1,6 +1,7 @@
 # Running Tagged Tests with Docker
 
 ## ❌ What DOESN'T Work
+
 ```bash
 # This will fail - Docker Compose doesn't accept Cypress flags
 docker compose up --build cypress --env grepTags=checklist_integrated
@@ -9,11 +10,12 @@ docker compose up --build cypress --env grepTags=checklist_integrated
 ## ✅ What WORKS - 4 Methods
 
 ### Method 1: Simple Scripts (Recommended)
+
 ```bash
 # Run checklist_integrated tests
 npm run docker:test-integrated
 
-# Run checklist_smoke tests  
+# Run checklist_smoke tests
 npm run docker:test-smoke
 
 # Default (currently set to checklist_integrated)
@@ -21,6 +23,7 @@ npm run docker:test
 ```
 
 ### Method 2: Using Compose Override Files
+
 ```bash
 # For integrated tests
 docker compose -f docker-compose.yml -f docker-compose.integrated.yml up --build
@@ -30,7 +33,9 @@ docker compose -f docker-compose.yml -f docker-compose.smoke.yml up --build
 ```
 
 ### Method 3: Edit docker-compose.yml Command
+
 Edit the command in `docker-compose.yml`:
+
 ```yaml
 services:
   cypress:
@@ -40,6 +45,7 @@ services:
 ```
 
 ### Method 4: Environment Variable Override
+
 ```bash
 # Set environment in docker-compose.yml
 services:
@@ -52,21 +58,25 @@ services:
 ## 🎯 Quick Examples
 
 ### Run Integrated Tests
+
 ```bash
 npm run docker:test-integrated
 ```
 
-### Run Smoke Tests  
+### Run Smoke Tests
+
 ```bash
 npm run docker:test-smoke
 ```
 
 ### Run All Tests (Default)
+
 ```bash
 npm run docker:test
 ```
 
 ### Clean Up After Tests
+
 ```bash
 npm run docker:down
 ```
@@ -99,8 +109,9 @@ npm run docker:down
 
 **Issue**: Tests not running with correct tag
 **Solution**: Check that your test files have the correct tag syntax:
+
 ```typescript
 describe("My Tests", { tags: "my_tag" }, () => {
   // tests here
 });
-``` 
+```

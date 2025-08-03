@@ -38,7 +38,7 @@ jobs:
             cypress:
               command: ["sleep 10 && npm run test:tag $TEST_TAG"]
           EOF
-          
+
           docker compose -f docker-compose.yml -f docker-compose.override.yml up --build cypress
 
       - name: Stop services
@@ -52,4 +52,4 @@ jobs:
         with:
           name: cypress-results-${{ inputs.test_tags }}
           path: test/results/
-          retention-days: 30 
+          retention-days: 30
