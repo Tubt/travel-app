@@ -57,7 +57,7 @@ jobs:
           authToken: ${{ secrets.TUSK_AUTH_TOKEN }}
           testFramework: "cypress"
           testFileRegex: "^test/e2e/.*\\.cy\\.(js|ts)$"
-          testScript: "docker compose -f docker-compose.yml -f docker-compose.integrated.yml up --build cypress"
+          testScript: "cd test && node tusk-test-runner.js {{ file }}"
           workingDirectory: "."
 
       - name: Stop services
