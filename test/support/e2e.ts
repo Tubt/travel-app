@@ -39,7 +39,7 @@ chai.use(function (chai) {
       `Expected text "${actualText}" to contain "${expectedText}"`,
       `Expected text "${actualText}" not to contain "${expectedText}"`,
       expectedText,
-      actualText,
+      actualText
     );
   });
 });

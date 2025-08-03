@@ -13,7 +13,7 @@ if (!tag) {
   console.log("  node run-tag-test.js checklist_integrated");
   console.log("  node run-tag-test.js checklist_smoke");
   console.log(
-    '  node run-tag-test.js checklist_integrated "e2e/integration/**/*.cy.ts"',
+    '  node run-tag-test.js checklist_integrated "e2e/integration/**/*.cy.ts"'
   );
   process.exit(1);
 }

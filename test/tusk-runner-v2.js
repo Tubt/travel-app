@@ -7,13 +7,14 @@ const path = require("path");
 const testFile = process.argv[2];
 
 if (!testFile) {
-  console.log("Usage: node tusk-test-runner.js <test-file-path>");
+  console.log("Usage: node tusk-runner-v2.js <test-file-path>");
   process.exit(1);
 }
 
+console.log(`🚀 TUSK RUNNER V2 - with all fixes applied`);
 console.log(`Running Tusk test for file: ${testFile}`);
 console.log(`Current working directory: ${process.cwd()}`);
-console.log(`Script version: v2.3 - with all fixes`);
+console.log(`Node.js version: ${process.version}`);
 
 // Remove "test/" prefix if present (since we're already in test directory)
 const cleanTestFile = testFile.startsWith("test/")
@@ -44,7 +45,7 @@ const args = [
   `grepTags=${testTag}`,
 ];
 
-console.log(`Running: npx ${args.join(" ")}`);
+console.log(`🔥 FINAL COMMAND: npx ${args.join(" ")}`);
 
 const cypress = spawn("npx", args, {
   stdio: "inherit",
@@ -52,6 +53,11 @@ const cypress = spawn("npx", args, {
 });
 
 cypress.on("exit", (code) => {
-  console.log(`Test completed with exit code: ${code}`);
+  console.log(`✅ Test completed with exit code: ${code}`);
   process.exit(code);
+});
+
+cypress.on("error", (error) => {
+  console.error(`❌ Cypress spawn error:`, error);
+  process.exit(1);
 });

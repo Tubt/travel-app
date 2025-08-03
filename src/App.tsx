@@ -1,68 +1,38 @@
 import "./App.css";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 // Components
-import {
-  Header,
-  BannerSlider,
-  Sidebar,
-  TravelMenu,
-  SearchSection,
-  DestinationGrid,
-  DestinationModal,
-  Footer,
-} from "./components";
+import { Header, Footer } from "./components";
 
-// Hooks
-import { useDestinationModal } from "./hooks";
+// Pages
+import {
+  HomePage,
+  TourDuLichPage,
+  KhachSanPage,
+  SoTayDuLichPage,
+  GioiThieuPage,
+} from "./pages";
 
 function App() {
-  const {
-    likes,
-    selectedDestination,
-    isModalOpen,
-    handleLike,
-    openModal,
-    closeModal,
-  } = useDestinationModal();
-
   return (
-    <div className="app">
-      {/* Header Navigation */}
-      <Header />
+    <Router>
+      <div className="app">
+        {/* Header Navigation */}
+        <Header />
 
-      {/* Main Layout with Sidebars */}
-      <div className="main-layout">
-        <Sidebar position="left" title="Hà Giang" subtitle="Ruộng bậc thang" />
+        {/* Routes */}
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/tour-du-lich" element={<TourDuLichPage />} />
+          <Route path="/khach-san" element={<KhachSanPage />} />
+          <Route path="/so-tay-du-lich" element={<SoTayDuLichPage />} />
+          <Route path="/gioi-thieu" element={<GioiThieuPage />} />
+        </Routes>
 
-        <div className="main-content">
-          <BannerSlider />
-
-          {/* Travel Menu Navigation */}
-          <TravelMenu />
-
-          {/* Search Sections */}
-          <SearchSection />
-
-          <DestinationGrid
-            likes={likes}
-            onLike={handleLike}
-            onOpenModal={openModal}
-          />
-        </div>
-
-        <Sidebar position="right" title="Sapa" subtitle="Thị trấn trong mây" />
+        {/* Footer */}
+        <Footer />
       </div>
-
-      {/* Modal */}
-      <DestinationModal
-        isOpen={isModalOpen}
-        destination={selectedDestination}
-        onClose={closeModal}
-      />
-
-      {/* Footer */}
-      <Footer />
-    </div>
+    </Router>
   );
 }
 

@@ -16,7 +16,7 @@ Cypress.Commands.add("selectDestination", (destinationName: string) => {
 Cypress.Commands.add("searchTravel", (searchParams: never) => {
   if (searchParams.destination) {
     cy.get('[data-testid="destination-select"]').select(
-      searchParams.destination,
+      searchParams.destination
     );
   }
 

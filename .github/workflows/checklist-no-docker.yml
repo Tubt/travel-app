@@ -1,4 +1,4 @@
-name: Tusk Test Runner
+name: Tusk Test Runner (No Docker)
 
 on:
   workflow_dispatch:
@@ -15,7 +15,7 @@ on:
 
 jobs:
   test-action:
-    name: Tusk Test Runner
+    name: Tusk Test Runner (No Docker)
     runs-on: ubuntu-latest
 
     steps:
@@ -36,16 +36,17 @@ jobs:
           npm ci
           cd test && npm ci
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
+      - name: Build app
+        run: npm run build
 
-      - name: Build and start app service
+      - name: Start app in background
         run: |
-          docker compose up --build -d app
+          npm run preview &
+          sleep 10
 
       - name: Wait for app to be ready
         run: |
-          timeout 60 sh -c 'until curl -f http://localhost:3000; do sleep 2; done'
+          timeout 60 sh -c 'until curl -f http://localhost:4173; do sleep 2; done'
 
       - name: Start runner
         id: test-action
@@ -57,10 +58,4 @@ jobs:
           authToken: ${{ secrets.TUSK_AUTH_TOKEN }}
           testFramework: "cypress"
           testFileRegex: "^test/e2e/.*\\.cy\\.(js|ts)$"
-          testScript: "docker compose -f docker-compose.yml -f docker-compose.integrated.yml up --build cypress"
-          workingDirectory: "."
-
-      - name: Stop services
-        if: always()
-        run: |
-          docker compose down
+          testScript: "cd test && CYPRESS_baseUrl=http://localhost:4173 node tusk-test-runner.js {{ file }}"

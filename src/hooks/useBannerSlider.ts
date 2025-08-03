@@ -10,7 +10,7 @@ export const useBannerSlider = () => {
 
   const prevSlide = () => {
     setCurrentSlide(
-      (prev) => (prev - 1 + bannerImages.length) % bannerImages.length,
+      (prev) => (prev - 1 + bannerImages.length) % bannerImages.length
     );
   };
 

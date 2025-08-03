@@ -1,17 +1,26 @@
 import React from "react";
+import { Link, useLocation } from "react-router-dom";
 
 const TravelMenu: React.FC = () => {
+  const location = useLocation();
+
   return (
     <div className="travel-menu">
       <div className="menu-nav">
-        <div className="nav-item active">
+        <Link
+          to="/tour-du-lich"
+          className={`nav-item ${location.pathname === "/tour-du-lich" ? "active" : ""}`}
+        >
           <span className="nav-icon">🎒</span>
           Tour trọn gói
-        </div>
-        <div className="nav-item">
+        </Link>
+        <Link
+          to="/khach-san"
+          className={`nav-item ${location.pathname === "/khach-san" ? "active" : ""}`}
+        >
           <span className="nav-icon">🏨</span>
           Khách sạn
-        </div>
+        </Link>
         <div className="nav-item">
           <span className="nav-icon">✈️</span>
           Vé máy bay
