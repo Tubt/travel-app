@@ -12,14 +12,14 @@
     "test": "cd test && npm run cypress:run",
     "test:open": "cd test && npm run cypress:open",
     "test:checklist": "cd test && npm run test:checklist",
-    "docker:build": "docker-compose build",
-    "docker:up": "docker-compose up",
-    "docker:up-d": "docker-compose up -d",
-    "docker:down": "docker-compose down",
-    "docker:test": "docker-compose up --build",
-    "docker:dev": "docker-compose -f docker-compose.dev.yml up",
-    "docker:dev-d": "docker-compose -f docker-compose.dev.yml up -d",
-    "docker:test-dev": "docker-compose -f docker-compose.dev.yml up --build cypress-dev"
+    "docker:build": "docker compose build",
+    "docker:up": "docker compose up",
+    "docker:up-d": "docker compose up -d",
+    "docker:down": "docker compose down",
+    "docker:test": "docker compose up --build",
+    "docker:dev": "docker compose -f docker-compose.dev.yml up",
+    "docker:dev-d": "docker compose -f docker-compose.dev.yml up -d",
+    "docker:test-dev": "docker compose -f docker-compose.dev.yml up --build cypress-dev"
   },
   "dependencies": {
     "react": "^18.3.1",
