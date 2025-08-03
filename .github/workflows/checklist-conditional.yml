@@ -1,12 +1,16 @@
-name: Checklist Test
+name: Checklist Test (Conditional)
 
 on:
   workflow_dispatch:
     inputs:
       test_tags:
-        description: "Test tags to run (e.g., checklist_integrated)"
+        description: "Test tags to run"
         required: false
         default: "checklist_integrated"
+        type: choice
+        options:
+          - "checklist_integrated"
+          - "checklist_smoke"
 
 jobs:
   test:
@@ -27,9 +31,15 @@ jobs:
         run: |
           timeout 60 sh -c 'until curl -f http://localhost:3000; do sleep 2; done'
 
-      - name: Run Cypress tests
+      - name: Run Integrated Tests
+        if: inputs.test_tags == 'checklist_integrated'
         run: |
           docker compose -f docker-compose.yml -f docker-compose.integrated.yml up --build cypress
+
+      - name: Run Smoke Tests
+        if: inputs.test_tags == 'checklist_smoke'
+        run: |
+          docker compose -f docker-compose.yml -f docker-compose.smoke.yml up --build cypress
 
       - name: Stop services
         if: always()
@@ -40,6 +50,6 @@ jobs:
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: cypress-results
+          name: cypress-results-${{ inputs.test_tags }}
           path: test/results/
-          retention-days: 30
+          retention-days: 30 

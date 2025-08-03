@@ -28,8 +28,18 @@ jobs:
           timeout 60 sh -c 'until curl -f http://localhost:3000; do sleep 2; done'
 
       - name: Run Cypress tests
+        env:
+          TEST_TAG: ${{ inputs.test_tags }}
         run: |
-          docker compose -f docker-compose.yml -f docker-compose.integrated.yml up --build cypress
+          # Create temporary docker-compose override
+          cat > docker-compose.override.yml << EOF
+          version: "3.8"
+          services:
+            cypress:
+              command: ["sleep 10 && npm run test:tag $TEST_TAG"]
+          EOF
+          
+          docker compose -f docker-compose.yml -f docker-compose.override.yml up --build cypress
 
       - name: Stop services
         if: always()
@@ -40,6 +50,6 @@ jobs:
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: cypress-results
+          name: cypress-results-${{ inputs.test_tags }}
           path: test/results/
-          retention-days: 30
+          retention-days: 30 
