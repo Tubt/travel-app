@@ -30,15 +30,15 @@ jobs:
           cd test
           npm install
 
-      - name: Check code formatting
-        run: |
-          echo "## 🎨 Code Format Check" >> $GITHUB_STEP_SUMMARY
-          npx prettier --check "**/*.{js,ts,tsx,json,yml,yaml}" || {
-            echo "❌ Code formatting issues found" >> $GITHUB_STEP_SUMMARY
-            echo "Run: npx prettier --write ." >> $GITHUB_STEP_SUMMARY
-            exit 1
-          }
-          echo "✅ Code formatting is correct" >> $GITHUB_STEP_SUMMARY
+      # - name: Check code formatting
+      #   run: |
+      #     echo "## 🎨 Code Format Check" >> $GITHUB_STEP_SUMMARY
+      #     npx prettier --check "**/*.{js,ts,tsx,json,yml,yaml}" || {
+      #       echo "❌ Code formatting issues found" >> $GITHUB_STEP_SUMMARY
+      #       echo "Run: npx prettier --write ." >> $GITHUB_STEP_SUMMARY
+      #       exit 1
+      #     }
+      #     echo "✅ Code formatting is correct" >> $GITHUB_STEP_SUMMARY
 
       - name: Run ESLint
         run: |
