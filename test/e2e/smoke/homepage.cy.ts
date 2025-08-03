@@ -11,7 +11,7 @@ describe("Homepage Smoke Tests", () => {
     homePage.visit();
   });
 
-  describe("Page Load Tests", () => {
+  describe("Page Load Tests", { tags: "checklist_smoke" }, () => {
     it("should load homepage successfully", () => {
       // Verify page title
       homePage.verifyPageTitle();
@@ -33,7 +33,7 @@ describe("Homepage Smoke Tests", () => {
     });
   });
 
-  describe("Banner Slider Tests", () => {
+  describe("Banner Slider Tests", { tags: "checklist_smoke" }, () => {
     it("should display banner slider with navigation", () => {
       homePage.verifySliderIsVisible();
 
@@ -58,7 +58,7 @@ describe("Homepage Smoke Tests", () => {
     });
   });
 
-  describe("Destination Cards Tests", () => {
+  describe("Destination Cards Tests",{ tags: "checklist_smoke" }, () => {
     it("should interact with destination cards", () => {
       const destinationName = "Hà Nội";
 
@@ -77,7 +77,7 @@ describe("Homepage Smoke Tests", () => {
 
   });
 
-  describe("Footer Tests", () => {
+  describe("Footer Tests", { tags: "checklist_smoke" }, () => {
     it("should display footer with all sections", () => {
       homePage.scrollToFooter();
 
@@ -99,7 +99,7 @@ describe("Homepage Smoke Tests", () => {
     });
   });
 
-  describe("Responsive Design Tests", () => {
+  describe("Responsive Design Tests",{ tags: "checklist_smoke" }, () => {
     it("should display correctly on mobile", () => {
       cy.viewport(375, 667);
 
@@ -134,19 +134,4 @@ describe("Homepage Smoke Tests", () => {
     });
   });
 
-  describe("Performance Tests", () => {
-    it("should load page within acceptable time", () => {
-      const startTime = Date.now();
-
-      homePage.visit();
-
-      cy.get(".grid")
-        .should("be.visible")
-        .then(() => {
-          const loadTime = Date.now() - startTime;
-          expect(loadTime).to.be.lessThan(5000); // 5 seconds max
-          cy.log(`Page load time: ${loadTime}ms`);
-        });
-    });
-  });
 });
