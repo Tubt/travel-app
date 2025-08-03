@@ -20,6 +20,8 @@
     "docker:up-d": "docker compose up -d",
     "docker:down": "docker compose down",
     "docker:test": "docker compose up --build",
+    "docker:test-integrated": "docker compose -f docker-compose.yml -f docker-compose.integrated.yml up --build",
+    "docker:test-smoke": "docker compose -f docker-compose.yml -f docker-compose.smoke.yml up --build",
     "docker:dev": "docker compose -f docker-compose.dev.yml up",
     "docker:dev-d": "docker compose -f docker-compose.dev.yml up -d",
     "docker:test-dev": "docker compose -f docker-compose.dev.yml up --build cypress-dev"

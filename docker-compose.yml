@@ -42,7 +42,7 @@ services:
     networks:
       - travel-app-network
     entrypoint: ["sh", "-c"]
-    command: ["sleep 1 && npm run cypress:run"]
+    command: ["sleep 10 && npm run test:checklist-integrated"]
 
 networks:
   travel-app-network:
