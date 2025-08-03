@@ -1,0 +1,128 @@
+{
+  "destinations": [
+    {
+      "name": "Hà Nội",
+      "description": "Thủ đô của Việt Nam",
+      "expectedElements": ["card", "like-btn", "details-btn"]
+    },
+    {
+      "name": "Sapa",
+      "description": "Vùng núi phía Bắc",
+      "expectedElements": ["card", "like-btn", "details-btn"]
+    },
+    {
+      "name": "Hạ Long",
+      "description": "Vịnh Hạ Long tuyệt đẹp",
+      "expectedElements": ["card", "like-btn", "details-btn"]
+    },
+    {
+      "name": "Phú Quốc",
+      "description": "Đảo ngọc miền Nam",
+      "expectedElements": ["card", "like-btn", "details-btn"]
+    },
+    {
+      "name": "Đà Nẵng", 
+      "description": "Thành phố đáng sống",
+      "expectedElements": ["card", "like-btn", "details-btn"]
+    },
+    {
+      "name": "Hội An",
+      "description": "Phố cổ Hội An",
+      "expectedElements": ["card", "like-btn", "details-btn"]
+    }
+  ],
+  
+  "searchParams": {
+    "valid": {
+      "destination": "Hà Nội",
+      "checkin": "2024-12-01",
+      "duration": "3 ngày",
+      "guests": "2"
+    },
+    "minimal": {
+      "destination": "Sapa"
+    },
+    "complete": {
+      "destination": "Phú Quốc",
+      "checkin": "2024-11-15",
+      "duration": "7 ngày",
+      "guests": "4"
+    }
+  },
+  
+  "userAccounts": {
+    "validUser": {
+      "email": "test.user@metoo.com",
+      "name": "Test User",
+      "preferences": {
+        "destination": "Hà Nội",
+        "duration": "5 ngày"
+      }
+    },
+    "newsletterUser": {
+      "email": "newsletter.test@metoo.com",
+      "name": "Newsletter Subscriber"
+    }
+  },
+  
+  "expectedTexts": {
+    "pageTitle": "Việt Nam đất nước của sự tươi đẹp",
+    "logoText": "DULICHMETOO",
+    "companyName": "CÔNG TY DU LỊCH DỊCH VỤ METOO",
+    "hotline": "0909009009",
+    "footerSections": [
+      "HỖ TRỢ KHÁCH HÀNG",
+      "THÔNG TIN CẦN BIẾT", 
+      "DỊCH VỤ",
+      "DU LỊCH THÔNG MINH"
+    ]
+  },
+  
+  "modalContent": {
+    "requiredElements": [
+      ".modal-header",
+      ".modal-desc",
+      ".modal-gallery",
+      ".modal-video"
+    ],
+    "galleryMinImages": 3,
+    "videoRequired": true
+  },
+  
+  "sliderConfig": {
+    "totalSlides": 8,
+    "autoPlayInterval": 5000,
+    "navigationButtons": [".prev-btn", ".next-btn"],
+    "dots": ".slider-dots .dot"
+  },
+  
+  "responsive": {
+    "mobile": {
+      "width": 375,
+      "height": 667
+    },
+    "tablet": {
+      "width": 768,
+      "height": 1024
+    },
+    "desktop": {
+      "width": 1280,
+      "height": 720
+    }
+  },
+  
+  "testEnvironments": {
+    "local": {
+      "baseUrl": "http://localhost:5173",
+      "apiUrl": "http://localhost:3001/api"
+    },
+    "staging": {
+      "baseUrl": "https://staging.metoo.com",
+      "apiUrl": "https://api-staging.metoo.com"
+    },
+    "production": {
+      "baseUrl": "https://metoo.com",
+      "apiUrl": "https://api.metoo.com"
+    }
+  }
+} 
