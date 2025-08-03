@@ -12,6 +12,8 @@ if (!testFile) {
 }
 
 console.log(`Running Tusk test for file: ${testFile}`);
+console.log(`Current working directory: ${process.cwd()}`);
+console.log(`Script version: v2.3 - with all fixes`);
 
 // Remove "test/" prefix if present (since we're already in test directory)
 const cleanTestFile = testFile.startsWith("test/")
@@ -34,6 +36,8 @@ console.log(`Detected test tag: ${testTag}`);
 const args = [
   "cypress",
   "run",
+  "--config-file",
+  "cypress.config.js",
   "--spec",
   cleanTestFile,
   "--env",

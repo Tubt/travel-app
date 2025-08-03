@@ -57,7 +57,8 @@ jobs:
           authToken: ${{ secrets.TUSK_AUTH_TOKEN }}
           testFramework: "cypress"
           testFileRegex: "^test/e2e/.*\\.cy\\.(js|ts)$"
-          testScript: "cd test && node tusk-test-runner.js {{ file }}"
+          testScript: "docker compose -f docker-compose.yml -f docker-compose.integrated.yml up --build cypress"
+          workingDirectory: "."
 
       - name: Stop services
         if: always()
