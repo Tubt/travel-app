@@ -13,23 +13,36 @@ if (!testFile) {
 
 console.log(`Running Tusk test for file: ${testFile}`);
 
+// Remove "test/" prefix if present (since we're already in test directory)
+const cleanTestFile = testFile.startsWith("test/")
+  ? testFile.substring(5)
+  : testFile;
+console.log(`Cleaned test file path: ${cleanTestFile}`);
+
 // Determine test tag based on file path
 let testTag = "checklist_integrated"; // default
 
-if (testFile.includes("smoke")) {
+if (cleanTestFile.includes("smoke")) {
   testTag = "checklist_smoke";
-} else if (testFile.includes("integration")) {
+} else if (cleanTestFile.includes("integration")) {
   testTag = "checklist_integrated";
 }
 
 console.log(`Detected test tag: ${testTag}`);
 
 // Run cypress with specific file and tag
-const args = ["run", "--spec", testFile, "--env", `grepTags=${testTag}`];
+const args = [
+  "cypress",
+  "run",
+  "--spec",
+  cleanTestFile,
+  "--env",
+  `grepTags=${testTag}`,
+];
 
-console.log(`Running: cypress ${args.join(" ")}`);
+console.log(`Running: npx ${args.join(" ")}`);
 
-const cypress = spawn("cypress", args, {
+const cypress = spawn("npx", args, {
   stdio: "inherit",
   cwd: process.cwd(),
 });
