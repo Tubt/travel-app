@@ -73,7 +73,7 @@ module.exports = defineConfig({
             destination:
               destinations[Math.floor(Math.random() * destinations.length)],
             checkinDate: new Date(
-              Date.now() + Math.random() * 30 * 24 * 60 * 60 * 1000,
+              Date.now() + Math.random() * 30 * 24 * 60 * 60 * 1000
             )
               .toISOString()
               .split("T")[0],
