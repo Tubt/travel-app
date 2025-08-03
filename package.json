@@ -8,16 +8,10 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
-    "format": "prettier --write .",
-    "format:check": "prettier --check .",
     "preview": "vite preview",
     "test": "cd test && npm run cypress:run",
     "test:open": "cd test && npm run cypress:open",
-    "test:checklist": "cd test && npm run test:checklist",
-    "docker:test": "docker-compose up --build --abort-on-container-exit --exit-code-from cypress",
-    "docker:app": "docker-compose up travel-app --build",
-    "docker:down": "docker-compose down"
+    "test:checklist": "cd test && npm run test:checklist"
   },
   "dependencies": {
     "react": "^18.3.1",
@@ -32,7 +26,6 @@
     "eslint-plugin-react-hooks": "^5.1.0-rc.0",
     "eslint-plugin-react-refresh": "^0.4.9",
     "globals": "^15.9.0",
-    "prettier": "^3.0.0",
     "typescript": "^5.5.3",
     "typescript-eslint": "^8.0.1",
     "vite": "^7.0.6"
