@@ -58,7 +58,7 @@ describe("Homepage Smoke Tests", () => {
     });
   });
 
-  describe("Destination Cards Tests",{ tags: "checklist_smoke" }, () => {
+  describe("Destination Cards Tests", { tags: "checklist_smoke" }, () => {
     it("should interact with destination cards", () => {
       const destinationName = "Hà Nội";
 
@@ -74,7 +74,6 @@ describe("Homepage Smoke Tests", () => {
         .find(".like-btn")
         .should("contain", "❤️");
     });
-
   });
 
   describe("Footer Tests", { tags: "checklist_smoke" }, () => {
@@ -99,7 +98,7 @@ describe("Homepage Smoke Tests", () => {
     });
   });
 
-  describe("Responsive Design Tests",{ tags: "checklist_smoke" }, () => {
+  describe("Responsive Design Tests", { tags: "checklist_smoke" }, () => {
     it("should display correctly on mobile", () => {
       cy.viewport(375, 667);
 
@@ -133,5 +132,4 @@ describe("Homepage Smoke Tests", () => {
       TestHelpers.takeScreenshot("homepage-desktop");
     });
   });
-
 });

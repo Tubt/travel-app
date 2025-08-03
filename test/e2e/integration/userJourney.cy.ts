@@ -8,7 +8,6 @@ describe("Basic UI Check Tests", () => {
   });
 
   describe("Homepage UI Elements", { tags: "checklist_integrated" }, () => {
-
     it("should have correct page title", () => {
       cy.title().should("include", "Việt Nam đất nước của sự tươi đẹp");
     });
@@ -57,7 +56,6 @@ describe("Basic UI Check Tests", () => {
   });
 
   describe("Content Verification", { tags: "checklist_integrated" }, () => {
-
     it("should have working links and buttons (visual check only)", () => {
       // Just verify buttons exist and are clickable (but don't actually click)
       cy.get(".like-btn").should("be.visible").and("not.be.disabled");

@@ -11,7 +11,7 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -22,7 +22,7 @@ jobs:
       - name: Build and start services
         run: |
           docker compose up --build -d app
-          
+
       - name: Wait for app to be ready
         run: |
           timeout 60 sh -c 'until curl -f http://localhost:3000; do sleep 2; done'
@@ -30,7 +30,7 @@ jobs:
       - name: Run Cypress tests
         run: |
           docker compose up --build cypress --env grepTags=${{ inputs.test_tags }}
-          
+
       - name: Stop services
         if: always()
         run: |
