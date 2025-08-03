@@ -8,7 +8,7 @@ interface SidebarProps {
 
 const Sidebar: React.FC<SidebarProps> = ({ position, title, subtitle }) => {
   const sidebarClass = position === 'left' ? 'sidebar-left' : 'sidebar-right';
-
+  
   return (
     <div className={sidebarClass}>
       <div className="sidebar-content">
@@ -19,4 +19,4 @@ const Sidebar: React.FC<SidebarProps> = ({ position, title, subtitle }) => {
   );
 };
 
-export default Sidebar;
+export default Sidebar; 

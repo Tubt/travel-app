@@ -2,19 +2,19 @@ name: Code Quality Check
 
 on:
   push:
-    branches: [master]
+    branches: [ master ]
   pull_request:
-    branches: [master]
+    branches: [ master ]
 
 jobs:
   code-quality:
     runs-on: ubuntu-latest
-
+    
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0 # Fetch full history for diff comparison
+          fetch-depth: 0  # Fetch full history for diff comparison
 
       - name: Use Node.js 22.13.0
         uses: actions/setup-node@v4
@@ -62,18 +62,18 @@ jobs:
         if: github.event_name == 'pull_request'
         run: |
           echo "## 📊 File Changes Analysis" >> $GITHUB_STEP_SUMMARY
-
+          
           # Get changed files
           CHANGED_FILES=$(git diff --name-only ${{ github.event.pull_request.base.sha }} ${{ github.sha }})
           echo "### Changed Files:" >> $GITHUB_STEP_SUMMARY
           echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
           echo "$CHANGED_FILES" >> $GITHUB_STEP_SUMMARY
           echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
-
+          
           # Count changes
           ADDED=$(git diff --numstat ${{ github.event.pull_request.base.sha }} ${{ github.sha }} | awk '{added += $1} END {print added}')
           DELETED=$(git diff --numstat ${{ github.event.pull_request.base.sha }} ${{ github.sha }} | awk '{deleted += $2} END {print deleted}')
-
+          
           echo "### Change Statistics:" >> $GITHUB_STEP_SUMMARY
           echo "- ✅ Lines added: \`$ADDED\`" >> $GITHUB_STEP_SUMMARY
           echo "- ❌ Lines deleted: \`$DELETED\`" >> $GITHUB_STEP_SUMMARY
@@ -108,7 +108,7 @@ jobs:
         run: |
           echo "## 📝 Code Comments Check" >> $GITHUB_STEP_SUMMARY
           TODO_COUNT=$(grep -r "TODO\|FIXME\|XXX\|HACK" --include="*.ts" --include="*.tsx" --include="*.js" . | wc -l || echo "0")
-
+          
           if [ "$TODO_COUNT" -gt 0 ]; then
             echo "⚠️ Found $TODO_COUNT TODO/FIXME comments" >> $GITHUB_STEP_SUMMARY
             echo "### Comments found:" >> $GITHUB_STEP_SUMMARY
@@ -125,4 +125,4 @@ jobs:
           echo "## 🏁 Quality Check Complete" >> $GITHUB_STEP_SUMMARY
           echo "- Commit: \`${{ github.sha }}\`" >> $GITHUB_STEP_SUMMARY
           echo "- Branch: \`${{ github.ref_name }}\`" >> $GITHUB_STEP_SUMMARY
-          echo "- Author: \`${{ github.actor }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "- Author: \`${{ github.actor }}\`" >> $GITHUB_STEP_SUMMARY 

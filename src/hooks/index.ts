@@ -1,2 +1,2 @@
 export { useBannerSlider } from './useBannerSlider';
-export { useDestinationModal } from './useDestinationModal';
+export { useDestinationModal } from './useDestinationModal'; 

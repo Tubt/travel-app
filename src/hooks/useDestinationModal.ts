@@ -1,10 +1,9 @@
-import { useState } from 'react';
-import type { Destination } from '../constants/destinations';
+import { useState } from "react";
+import type { Destination } from "../constants/destinations";
 
 export const useDestinationModal = () => {
   const [likes, setLikes] = useState<Record<number, number>>({});
-  const [selectedDestination, setSelectedDestination] =
-    useState<Destination | null>(null);
+  const [selectedDestination, setSelectedDestination] = useState<Destination | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleLike = (id: number) => {
@@ -27,6 +26,6 @@ export const useDestinationModal = () => {
     isModalOpen,
     handleLike,
     openModal,
-    closeModal,
+    closeModal
   };
-};
+}; 

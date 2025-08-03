@@ -30,7 +30,6 @@ test/
 ## 🚀 Cài đặt và Chạy Tests
 
 ### Prerequisites
-
 - Node.js (v14 hoặc mới hơn)
 - Travel app đang chạy trên `http://localhost:5173`
 
@@ -46,7 +45,7 @@ npm run test:all
 # Chạy smoke tests
 npm run test:smoke
 
-# Chạy integration tests
+# Chạy integration tests  
 npm run test:integration
 
 # Chạy regression tests
@@ -58,7 +57,7 @@ npm run test:firefox
 
 # Chạy tests với screen sizes khác nhau
 npm run test:mobile    # 375x667
-npm run test:tablet    # 768x1024
+npm run test:tablet    # 768x1024  
 npm run test:desktop   # 1280x720
 
 # Chạy tests với headed mode (xem browser)
@@ -68,27 +67,21 @@ npm run test:headed
 ## 📋 Test Categories
 
 ### 🟢 Smoke Tests (`e2e/smoke/`)
-
 Tests các chức năng cơ bản và critical:
-
 - Page load và rendering
 - Navigation cơ bản
 - Core user interactions
 - Critical UI elements
 
 ### 🔵 Integration Tests (`e2e/integration/`)
-
 Tests các user journeys hoàn chỉnh:
-
 - Complete booking flow
-- Multi-step user interactions
+- Multi-step user interactions  
 - Cross-component functionality
 - End-to-end scenarios
 
 ### 🟡 Regression Tests (`e2e/regression/`)
-
 Tests để đảm bảo không có regression bugs:
-
 - Previous bug fixes
 - Edge cases
 - Browser compatibility
@@ -97,59 +90,54 @@ Tests để đảm bảo không có regression bugs:
 ## 🏗️ Framework Components
 
 ### Page Object Models
-
 ```typescript
 // Sử dụng HomePage POM
-import { HomePage } from '../pageObjects/HomePage';
+import { HomePage } from '../pageObjects/HomePage'
 
-const homePage = new HomePage();
-homePage.visit();
-homePage.searchForDestination({ destination: 'Hà Nội' });
-homePage.openDestinationDetails('Sapa');
+const homePage = new HomePage()
+homePage.visit()
+homePage.searchForDestination({ destination: 'Hà Nội' })
+homePage.openDestinationDetails('Sapa')
 ```
 
 ### Custom Commands
-
 ```typescript
 // Đã được setup sẵn các custom commands
-cy.selectDestination('Hà Nội');
-cy.searchTravel({ destination: 'Sapa', guests: '2' });
-cy.likeDestination('Phú Quốc');
-cy.openDestinationModal('Đà Nẵng');
-cy.signupNewsletter('test@example.com');
+cy.selectDestination('Hà Nội')
+cy.searchTravel({ destination: 'Sapa', guests: '2' })
+cy.likeDestination('Phú Quốc')
+cy.openDestinationModal('Đà Nẵng')
+cy.signupNewsletter('test@example.com')
 ```
 
 ### Test Helpers
-
 ```typescript
-import { TestHelpers } from '../support/helpers/testHelpers';
+import { TestHelpers } from '../support/helpers/testHelpers'
 
 // Generate test data
-const email = TestHelpers.generateRandomEmail();
-const destination = TestHelpers.generateRandomDestination();
+const email = TestHelpers.generateRandomEmail()
+const destination = TestHelpers.generateRandomDestination()
 
 // Screenshots
-TestHelpers.takeScreenshot('test-step-1');
+TestHelpers.takeScreenshot('test-step-1')
 
 // Navigation helpers
-TestHelpers.scrollToBottom();
-TestHelpers.waitForPageLoad();
+TestHelpers.scrollToBottom()
+TestHelpers.waitForPageLoad()
 ```
 
 ### Test Data (Fixtures)
-
 ```typescript
 // Load test data từ fixtures
 cy.fixture('testData').then((data) => {
-  const searchParams = data.searchParams.valid;
-  const destinations = data.destinations;
-});
+  const searchParams = data.searchParams.valid
+  const destinations = data.destinations
+})
 ```
 
 ## ⚙️ Configuration
 
 ### Environment Variables
-
 Framework hỗ trợ multiple environments:
 
 ```typescript
@@ -162,7 +150,6 @@ env: {
 ```
 
 ### Browser Settings
-
 - Default viewport: 1280x720
 - Default timeout: 10 seconds
 - Retry on failure: 2 times (run mode)
@@ -172,14 +159,12 @@ env: {
 ## 📊 Reporting
 
 ### Test Results
-
 - **Videos**: Tự động record tất cả test runs
 - **Screenshots**: Tự động capture khi test fail
 - **Logs**: Chi tiết logs trong Cypress Dashboard
 - **Performance**: Load time tracking
 
 ### Artifacts Location
-
 ```
 test/results/
 ├── screenshots/    # PNG files của failed tests
@@ -189,47 +174,42 @@ test/results/
 ## 🔧 Best Practices
 
 ### 1. Test Organization
-
 - **Smoke tests**: Chạy nhanh, test critical paths
 - **Integration tests**: Test complete user flows
 - **Regression tests**: Test edge cases và bug fixes
 
 ### 2. Page Object Pattern
-
 ```typescript
 // ✅ Good - Sử dụng POM
-homePage.searchForDestination(searchParams);
+homePage.searchForDestination(searchParams)
 
 // ❌ Bad - Direct selectors trong test
-cy.get('.search-input').type('Hà Nội');
+cy.get('.search-input').type('Hà Nội')
 ```
 
 ### 3. Test Data Management
-
 ```typescript
 // ✅ Good - Sử dụng fixtures
 cy.fixture('testData').then((data) => {
-  homePage.searchForDestination(data.searchParams.valid);
-});
+  homePage.searchForDestination(data.searchParams.valid)
+})
 
 // ❌ Bad - Hardcoded data
-cy.get('.search-input').type('Hà Nội');
+cy.get('.search-input').type('Hà Nội')
 ```
 
 ### 4. Waiting Strategies
-
 ```typescript
 // ✅ Good - Smart waiting
-cy.get('.modal-overlay').should('be.visible');
+cy.get('.modal-overlay').should('be.visible')
 
 // ❌ Bad - Fixed waits
-cy.wait(3000);
+cy.wait(3000)
 ```
 
 ## 🐛 Debugging
 
 ### Local Debugging
-
 ```bash
 # Mở Cypress với debug mode
 npm run cypress:open
@@ -239,7 +219,6 @@ npx cypress run --spec "e2e/smoke/homepage.cy.ts" --headed
 ```
 
 ### Common Issues
-
 1. **Element not found**: Check selector hoặc timing
 2. **Test timeout**: Increase timeout trong config
 3. **Flaky tests**: Add proper waits và assertions
@@ -247,7 +226,6 @@ npx cypress run --spec "e2e/smoke/homepage.cy.ts" --headed
 ## 📈 CI/CD Integration
 
 ### GitHub Actions Example
-
 ```yaml
 - name: Run Cypress Tests
   run: |
@@ -257,7 +235,6 @@ npx cypress run --spec "e2e/smoke/homepage.cy.ts" --headed
 ```
 
 ### Docker Support
-
 ```bash
 # Chạy tests trong Docker container
 docker run -it --rm -v $PWD:/e2e -w /e2e cypress/included:latest
@@ -266,20 +243,17 @@ docker run -it --rm -v $PWD:/e2e -w /e2e cypress/included:latest
 ## 🤝 Contributing
 
 ### Adding New Tests
-
 1. Tạo test file trong folder phù hợp (`smoke/`, `integration/`, `regression/`)
 2. Sử dụng Page Object Models
 3. Add test data vào `fixtures/testData.json`
 4. Follow naming conventions: `*.cy.ts`
 
 ### Adding New Page Objects
-
 1. Tạo file trong `pageObjects/`
 2. Implement methods cho page interactions
 3. Export class và update imports
 
 ### Test Naming Conventions
-
 - **File names**: `featureName.cy.ts`
 - **Test descriptions**: Clear, readable, action-based
 - **Test IDs**: Use `data-testid` attributes
@@ -294,4 +268,4 @@ docker run -it --rm -v $PWD:/e2e -w /e2e cypress/included:latest
 
 **Framework Version**: 1.0.0  
 **Last Updated**: December 2024  
-**Maintainer**: Travel App Test Team
+**Maintainer**: Travel App Test Team 

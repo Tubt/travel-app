@@ -8,11 +8,7 @@ interface DestinationGridProps {
   onOpenModal: (destination: Destination) => void;
 }
 
-const DestinationGrid: React.FC<DestinationGridProps> = ({
-  likes,
-  onLike,
-  onOpenModal,
-}) => {
+const DestinationGrid: React.FC<DestinationGridProps> = ({ likes, onLike, onOpenModal }) => {
   return (
     <div className="grid">
       {destinations.map((dest) => (
@@ -45,4 +41,4 @@ const DestinationGrid: React.FC<DestinationGridProps> = ({
   );
 };
 
-export default DestinationGrid;
+export default DestinationGrid; 

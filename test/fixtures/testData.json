@@ -21,7 +21,7 @@
       "expectedElements": ["card", "like-btn", "details-btn"]
     },
     {
-      "name": "Đà Nẵng",
+      "name": "Đà Nẵng", 
       "description": "Thành phố đáng sống",
       "expectedElements": ["card", "like-btn", "details-btn"]
     },
@@ -31,7 +31,7 @@
       "expectedElements": ["card", "like-btn", "details-btn"]
     }
   ],
-
+  
   "searchParams": {
     "valid": {
       "destination": "Hà Nội",
@@ -49,7 +49,7 @@
       "guests": "4"
     }
   },
-
+  
   "userAccounts": {
     "validUser": {
       "email": "test.user@metoo.com",
@@ -64,7 +64,7 @@
       "name": "Newsletter Subscriber"
     }
   },
-
+  
   "expectedTexts": {
     "pageTitle": "Việt Nam đất nước của sự tươi đẹp",
     "logoText": "DULICHMETOO",
@@ -72,12 +72,12 @@
     "hotline": "0909009009",
     "footerSections": [
       "HỖ TRỢ KHÁCH HÀNG",
-      "THÔNG TIN CẦN BIẾT",
+      "THÔNG TIN CẦN BIẾT", 
       "DỊCH VỤ",
       "DU LỊCH THÔNG MINH"
     ]
   },
-
+  
   "modalContent": {
     "requiredElements": [
       ".modal-header",
@@ -88,14 +88,14 @@
     "galleryMinImages": 3,
     "videoRequired": true
   },
-
+  
   "sliderConfig": {
     "totalSlides": 8,
     "autoPlayInterval": 5000,
     "navigationButtons": [".prev-btn", ".next-btn"],
     "dots": ".slider-dots .dot"
   },
-
+  
   "responsive": {
     "mobile": {
       "width": 375,
@@ -110,7 +110,7 @@
       "height": 720
     }
   },
-
+  
   "testEnvironments": {
     "local": {
       "baseUrl": "http://localhost:5173",
@@ -125,4 +125,4 @@
       "apiUrl": "https://api.metoo.com"
     }
   }
-}
+} 

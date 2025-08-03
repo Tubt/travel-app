@@ -9,28 +9,26 @@ const BannerSlider: React.FC = () => {
     <div className="banner-slider">
       <div className="slides-container">
         {bannerImages.map((image, index) => (
-          <div
+          <div 
             key={index}
             className={`slide ${index === currentSlide ? 'active' : ''}`}
             style={{ backgroundImage: `url(${image.url})` }}
           >
             <div className="banner-overlay">
-              <h1 className="banner-title">
-                TOP NHỮNG ĐỊA ĐIỂM DU LỊCH Ở VIỆT NAM
-              </h1>
+              <h1 className="banner-title">TOP NHỮNG ĐỊA ĐIỂM DU LỊCH Ở VIỆT NAM</h1>
               <p className="banner-subtitle">{image.title}</p>
             </div>
           </div>
         ))}
       </div>
-
+      
       <button className="slider-btn prev-btn" onClick={prevSlide}>
         ‹
       </button>
       <button className="slider-btn next-btn" onClick={nextSlide}>
         ›
       </button>
-
+      
       <div className="slider-dots">
         {bannerImages.map((_, index) => (
           <button
@@ -44,4 +42,4 @@ const BannerSlider: React.FC = () => {
   );
 };
 
-export default BannerSlider;
+export default BannerSlider; 

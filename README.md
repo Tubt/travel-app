@@ -7,7 +7,7 @@ Website du lịch hiện đại được xây dựng với React + TypeScript + 
 ## ✨ Tính năng chính
 
 - 🎠 **Banner Slider**: Carousel tự động với 8 hình ảnh du lịch đẹp
-- 🏠 **Header Navigation**: Menu điều hướng chuyên nghiệp
+- 🏠 **Header Navigation**: Menu điều hướng chuyên nghiệp 
 - 🗺️ **Destinations Grid**: Hiển thị 6 địa điểm du lịch hot nhất
 - 📱 **Responsive Design**: Tối ưu cho mọi thiết bị
 - 🖼️ **Modal Gallery**: Xem chi tiết với hình ảnh và video
@@ -33,7 +33,6 @@ Trước khi bắt đầu, hãy đảm bảo bạn đã cài đặt:
 - **Git** ([Download](https://git-scm.com/))
 
 ### Kiểm tra phiên bản:
-
 ```bash
 node --version
 npm --version
@@ -43,14 +42,12 @@ git --version
 ## 🚀 Cài đặt và chạy dự án
 
 ### 1. Clone repository
-
 ```bash
 git clone https://github.com/your-username/poc-tusk-sdk.git
 cd poc-tusk-sdk/travel-app
 ```
 
 ### 2. Cài đặt dependencies
-
 ```bash
 npm install
 # hoặc
@@ -58,7 +55,6 @@ yarn install
 ```
 
 ### 3. Chạy development server
-
 ```bash
 npm run dev
 # hoặc
@@ -68,7 +64,6 @@ yarn dev
 Mở trình duyệt và truy cập: `http://localhost:5173`
 
 ### 4. Build cho production
-
 ```bash
 npm run build
 # hoặc
@@ -76,7 +71,6 @@ yarn build
 ```
 
 ### 5. Preview production build
-
 ```bash
 npm run preview
 # hoặc
@@ -84,7 +78,6 @@ yarn preview
 ```
 
 ### 6. Lint code
-
 ```bash
 npm run lint
 # hoặc
@@ -124,7 +117,6 @@ travel-app/
 ## 🎨 Customization
 
 ### Thêm điểm đến mới
-
 Chỉnh sửa file `src/constants/destinations.ts`:
 
 ```typescript
@@ -146,7 +138,6 @@ Chỉnh sửa file `src/constants/destinations.ts`:
 ```
 
 ### Thêm banner mới
-
 Chỉnh sửa file `src/constants/bannerImages.ts`:
 
 ```typescript
@@ -157,7 +148,6 @@ Chỉnh sửa file `src/constants/bannerImages.ts`:
 ```
 
 ### Thay đổi màu sắc
-
 Chỉnh sửa các biến CSS trong `src/App.css`:
 
 ```css
@@ -173,20 +163,17 @@ Chỉnh sửa các biến CSS trong `src/App.css`:
 Chúng tôi rất hoan nghênh mọi đóng góp! Hãy làm theo các bước sau:
 
 ### 1. Fork dự án
-
 ```bash
 # Click "Fork" trên GitHub repo
 ```
 
 ### 2. Clone fork của bạn
-
 ```bash
 git clone https://github.com/YOUR_USERNAME/dulich-metoo.git
 cd dulich-metoo/travel-app
 ```
 
 ### 3. Tạo branch mới
-
 ```bash
 git checkout -b feature/ten-tinh-nang-moi
 # hoặc
@@ -194,13 +181,11 @@ git checkout -b fix/sua-loi-gi-do
 ```
 
 ### 4. Implement changes
-
 - Viết code sạch và có comment
 - Tuân thủ coding standards hiện tại
 - Test kỹ trước khi commit
 
 ### 5. Commit changes
-
 ```bash
 git add .
 git commit -m "feat: thêm tính năng ABC"
@@ -209,7 +194,6 @@ git commit -m "fix: sửa lỗi XYZ"
 ```
 
 ### 6. Push và tạo Pull Request
-
 ```bash
 git push origin feature/ten-tinh-nang-moi
 ```
@@ -228,7 +212,6 @@ Sau đó tạo Pull Request trên GitHub với mô tả chi tiết.
 ### 🐛 Bug Reports
 
 Khi báo cáo bug, hãy bao gồm:
-
 - Mô tả chi tiết lỗi
 - Các bước tái hiện
 - Screenshots/videos (nếu có)
@@ -238,7 +221,6 @@ Khi báo cáo bug, hãy bao gồm:
 ### ✨ Feature Requests
 
 Cho feature requests, hãy bao gồm:
-
 - Mô tả tính năng chi tiết
 - Use cases và benefits
 - Mockups/wireframes (nếu có)
@@ -259,4 +241,4 @@ Dự án này được phân phối dưới [MIT License](LICENSE).
 
 **Phát triển bởi MeToo Travel Team** 🇻🇳
 
-_Khám phá Việt Nam - Trải nghiệm tuyệt vời!_ ✈️🏔️🏖️
+*Khám phá Việt Nam - Trải nghiệm tuyệt vời!* ✈️🏔️🏖️

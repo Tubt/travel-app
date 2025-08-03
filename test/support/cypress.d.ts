@@ -3,9 +3,9 @@
 declare global {
   namespace Cypress {
     interface SuiteConfigOverrides {
-      tags?: string | string[];
+      tags?: string | string[]
     }
   }
 }
 
-export {};
+export {} 

@@ -5,19 +5,11 @@ services:
   travel-app:
     build: .
     ports:
-      - '5173:5173'
+      - "5173:5173"
     environment:
       - NODE_ENV=production
     healthcheck:
-      test:
-        [
-          'CMD',
-          'wget',
-          '--quiet',
-          '--tries=1',
-          '--spider',
-          'http://localhost:5173',
-        ]
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:5173"]
       interval: 10s
       timeout: 5s
       retries: 3
@@ -38,4 +30,4 @@ services:
       sh -c "
         npm ci &&
         npx cypress run --spec 'e2e/integration/userJourney.cy.ts' --env grepTags=checklist_integrated
-      "
+      " 
