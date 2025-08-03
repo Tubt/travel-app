@@ -1,10 +1,12 @@
-name: CI/CD Pipeline
+name: Checklist Test
 
 on:
-  push:
-    branches: [master]
-  pull_request:
-    branches: [master]
+  workflow_dispatch:
+    inputs:
+      test_tags:
+        description: "Test tags to run (e.g., checklist_integrated)"
+        required: false
+        default: "checklist_integrated"
 
 jobs:
   test:
@@ -27,7 +29,7 @@ jobs:
 
       - name: Run Cypress tests
         run: |
-          docker compose up --build cypress
+          docker compose up --build cypress --env grepTags=${{ inputs.test_tags }}
           
       - name: Stop services
         if: always()
