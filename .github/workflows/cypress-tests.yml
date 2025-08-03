@@ -1,96 +1,19 @@
-name: Cypress E2E Tests
+name: E2E Checklist Tests
 
 on:
-  push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
   workflow_dispatch:
     inputs:
       test_tags:
         description: 'Test tags to run (e.g., checklist_integrated)'
         required: false
         default: 'checklist_integrated'
+  schedule:
+    # Run daily at 2 AM UTC
+    - cron: '0 2 * * *'
 
 jobs:
-  cypress-run:
+  checklist-e2e:
     runs-on: ubuntu-latest
-    
-    strategy:
-      matrix:
-        node-version: [22.13.0]
-    
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ matrix.node-version }}
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: |
-          cd test
-          npm ci
-
-      - name: Install Cypress dependencies
-        run: |
-          cd test
-          npx cypress install
-
-      - name: Start application server
-        run: |
-          cd test
-          npm run dev &
-          sleep 30
-        env:
-          CI: true
-
-      - name: Wait for server to be ready
-        run: |
-          npx wait-on http://localhost:5173 --timeout 60000
-
-      - name: Run Cypress tests with checklist_integrated tag
-        run: |
-          cd test
-          npx cypress run \
-            --spec "e2e/integration/userJourney.cy.ts" \
-            --browser chrome \
-            --headless \
-            --config video=true,screenshotOnRunFailure=true
-        env:
-          CYPRESS_baseUrl: http://localhost:5173
-
-      - name: Upload Cypress screenshots
-        uses: actions/upload-artifact@v4
-        if: failure()
-        with:
-          name: cypress-screenshots
-          path: test/results/screenshots
-          retention-days: 7
-
-      - name: Upload Cypress videos
-        uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: cypress-videos
-          path: test/results/videos
-          retention-days: 7
-
-      - name: Upload Cypress test results
-        uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: cypress-results
-          path: test/results
-          retention-days: 7
-
-  # Separate job specifically for checklist_integrated tests
-  checklist-integrated-tests:
-    runs-on: ubuntu-latest
-    if: contains(github.event.head_commit.message, 'checklist_integrated') || github.event_name == 'workflow_dispatch'
     
     steps:
       - name: Checkout code
@@ -102,55 +25,70 @@ jobs:
           node-version: 22.13.0
           cache: 'npm'
 
-      - name: Install dependencies
+      - name: Build and run with Docker Compose
         run: |
-          cd test
-          npm ci
+          docker-compose up --build --abort-on-container-exit --exit-code-from cypress
 
-      - name: Install Cypress dependencies
+      - name: Copy test results from container
+        if: always()
         run: |
-          cd test
-          npx cypress install
-
-      - name: Start application server
-        run: |
-          cd test
-          npm run dev &
-          sleep 30
-        env:
-          CI: true
-
-      - name: Wait for server to be ready
-        run: |
-          npx wait-on http://localhost:5173 --timeout 60000
-
-      - name: Run checklist_integrated tests
-        run: |
-          cd test
-          npx cypress run \
-            --spec "e2e/integration/userJourney.cy.ts" \
-            --browser chrome \
-            --headless \
-            --config video=true,screenshotOnRunFailure=true \
-            --env grepTags=checklist_integrated
-        env:
-          CYPRESS_baseUrl: http://localhost:5173
+          docker-compose ps
+          mkdir -p test/results
+          docker cp $(docker-compose ps -q cypress):/e2e/results ./test/ || echo "No results to copy"
 
       - name: Create test summary
         if: always()
         run: |
-          echo "## 🧪 Checklist Integrated Tests Results" >> $GITHUB_STEP_SUMMARY
-          echo "- Test file: \`userJourney.cy.ts\`" >> $GITHUB_STEP_SUMMARY
-          echo "- Tag: \`checklist_integrated\`" >> $GITHUB_STEP_SUMMARY
-          echo "- Browser: Chrome" >> $GITHUB_STEP_SUMMARY
-          echo "- Base URL: http://localhost:5173" >> $GITHUB_STEP_SUMMARY
+          echo "## 🧪 E2E Checklist Tests Results" >> $GITHUB_STEP_SUMMARY
+          echo "### Test Configuration:" >> $GITHUB_STEP_SUMMARY
+          echo "- **Test file:** \`userJourney.cy.ts\`" >> $GITHUB_STEP_SUMMARY
+          echo "- **Tag:** \`checklist_integrated\`" >> $GITHUB_STEP_SUMMARY
+          echo "- **Browser:** Chrome (headless)" >> $GITHUB_STEP_SUMMARY
+          echo "- **Base URL:** http://localhost:5173" >> $GITHUB_STEP_SUMMARY
+          echo "- **Retries:** 2" >> $GITHUB_STEP_SUMMARY
+          echo "- **Node.js:** 22.13.0" >> $GITHUB_STEP_SUMMARY
+          echo "- **Triggered by:** \`${{ github.event_name }}\`" >> $GITHUB_STEP_SUMMARY
 
-      - name: Upload test artifacts for checklist_integrated
+      - name: Upload screenshots (on failure)
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: cypress-screenshots-${{ github.run_number }}
+          path: test/results/screenshots
+          retention-days: 7
+
+      - name: Upload videos
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: checklist-integrated-results
-          path: |
-            test/results/
-            test/cypress/
-          retention-days: 7 
+          name: cypress-videos-${{ github.run_number }}
+          path: test/results/videos
+          retention-days: 7
+
+      - name: Upload test results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: cypress-results-${{ github.run_number }}
+          path: test/results
+          retention-days: 7
+
+      - name: Notify on failure
+        if: failure()
+        run: |
+          echo "## ❌ E2E Tests Failed" >> $GITHUB_STEP_SUMMARY
+          echo "### Next Steps:" >> $GITHUB_STEP_SUMMARY
+          echo "1. Check the uploaded screenshots and videos" >> $GITHUB_STEP_SUMMARY
+          echo "2. Review test logs above" >> $GITHUB_STEP_SUMMARY
+          echo "3. Run tests locally: \`npm run test:checklist\`" >> $GITHUB_STEP_SUMMARY
+          echo "4. Check if application is working at http://localhost:5173" >> $GITHUB_STEP_SUMMARY
+
+      - name: Success notification
+        if: success()
+        run: |
+          echo "## ✅ E2E Tests Passed" >> $GITHUB_STEP_SUMMARY
+          echo "All checklist integrated tests completed successfully!" >> $GITHUB_STEP_SUMMARY
+          echo "### Coverage:" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ Homepage UI elements verification" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ Responsive design check (mobile/tablet/desktop)" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ Content structure validation" >> $GITHUB_STEP_SUMMARY 

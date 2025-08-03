@@ -1,0 +1,123 @@
+name: Code Quality Check
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  code-quality:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Fetch full history for diff comparison
+
+      - name: Use Node.js 22.13.0
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.13.0
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Check code formatting
+        run: |
+          echo "## 🎨 Code Format Check" >> $GITHUB_STEP_SUMMARY
+          npx prettier --check "**/*.{js,ts,tsx,json,yml,yaml}" || {
+            echo "❌ Code formatting issues found" >> $GITHUB_STEP_SUMMARY
+            echo "Run: npx prettier --write ." >> $GITHUB_STEP_SUMMARY
+            exit 1
+          }
+          echo "✅ Code formatting is correct" >> $GITHUB_STEP_SUMMARY
+
+      - name: Run ESLint
+        run: |
+          echo "## 🔍 ESLint Check" >> $GITHUB_STEP_SUMMARY
+          npm run lint || {
+            echo "❌ ESLint issues found" >> $GITHUB_STEP_SUMMARY
+            exit 1
+          }
+          echo "✅ No ESLint issues" >> $GITHUB_STEP_SUMMARY
+
+      - name: TypeScript compilation check
+        run: |
+          echo "## 🔧 TypeScript Check" >> $GITHUB_STEP_SUMMARY
+          npx tsc --noEmit || {
+            echo "❌ TypeScript compilation errors" >> $GITHUB_STEP_SUMMARY
+            exit 1
+          }
+          echo "✅ TypeScript compilation successful" >> $GITHUB_STEP_SUMMARY
+
+      - name: Check file changes
+        if: github.event_name == 'pull_request'
+        run: |
+          echo "## 📊 File Changes Analysis" >> $GITHUB_STEP_SUMMARY
+          
+          # Get changed files
+          CHANGED_FILES=$(git diff --name-only ${{ github.event.pull_request.base.sha }} ${{ github.sha }})
+          echo "### Changed Files:" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+          echo "$CHANGED_FILES" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+          
+          # Count changes
+          ADDED=$(git diff --numstat ${{ github.event.pull_request.base.sha }} ${{ github.sha }} | awk '{added += $1} END {print added}')
+          DELETED=$(git diff --numstat ${{ github.event.pull_request.base.sha }} ${{ github.sha }} | awk '{deleted += $2} END {print deleted}')
+          
+          echo "### Change Statistics:" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ Lines added: \`$ADDED\`" >> $GITHUB_STEP_SUMMARY
+          echo "- ❌ Lines deleted: \`$DELETED\`" >> $GITHUB_STEP_SUMMARY
+
+      - name: Check package.json changes
+        if: github.event_name == 'pull_request'
+        run: |
+          if git diff --name-only ${{ github.event.pull_request.base.sha }} ${{ github.sha }} | grep -q "package.json"; then
+            echo "## 📦 Package.json Changes Detected" >> $GITHUB_STEP_SUMMARY
+            echo "⚠️ Dependencies may have changed. Review carefully." >> $GITHUB_STEP_SUMMARY
+            
+            echo "### Changed dependencies:" >> $GITHUB_STEP_SUMMARY
+            echo "\`\`\`diff" >> $GITHUB_STEP_SUMMARY
+            git diff ${{ github.event.pull_request.base.sha }} ${{ github.sha }} -- package.json | grep -E "^\+|^\-" | head -20 >> $GITHUB_STEP_SUMMARY || true
+            echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "## 📦 No Package.json Changes" >> $GITHUB_STEP_SUMMARY
+            echo "✅ No dependency changes detected" >> $GITHUB_STEP_SUMMARY
+          fi
+
+      - name: Security audit
+        run: |
+          echo "## 🔒 Security Audit" >> $GITHUB_STEP_SUMMARY
+          npm audit --audit-level moderate || {
+            echo "⚠️ Security vulnerabilities found" >> $GITHUB_STEP_SUMMARY
+            echo "Run: npm audit fix" >> $GITHUB_STEP_SUMMARY
+            exit 1
+          }
+          echo "✅ No security vulnerabilities" >> $GITHUB_STEP_SUMMARY
+
+      - name: Check for TODO/FIXME comments
+        run: |
+          echo "## 📝 Code Comments Check" >> $GITHUB_STEP_SUMMARY
+          TODO_COUNT=$(grep -r "TODO\|FIXME\|XXX\|HACK" --include="*.ts" --include="*.tsx" --include="*.js" . | wc -l || echo "0")
+          
+          if [ "$TODO_COUNT" -gt 0 ]; then
+            echo "⚠️ Found $TODO_COUNT TODO/FIXME comments" >> $GITHUB_STEP_SUMMARY
+            echo "### Comments found:" >> $GITHUB_STEP_SUMMARY
+            echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+            grep -rn "TODO\|FIXME\|XXX\|HACK" --include="*.ts" --include="*.tsx" --include="*.js" . | head -10 >> $GITHUB_STEP_SUMMARY || true
+            echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "✅ No TODO/FIXME comments found" >> $GITHUB_STEP_SUMMARY
+          fi
+
+      - name: Final summary
+        if: always()
+        run: |
+          echo "## 🏁 Quality Check Complete" >> $GITHUB_STEP_SUMMARY
+          echo "- Commit: \`${{ github.sha }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "- Branch: \`${{ github.ref_name }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "- Author: \`${{ github.actor }}\`" >> $GITHUB_STEP_SUMMARY 

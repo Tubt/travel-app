@@ -1,0 +1,25 @@
+# Dependencies
+node_modules/
+test/node_modules/
+
+# Build outputs
+dist/
+build/
+
+# Test results
+test/results/
+test/cypress/
+*.mp4
+*.png
+*.jpg
+
+# Logs
+*.log
+
+# Generated files
+package-lock.json
+*.tsbuildinfo
+
+# OS
+.DS_Store
+Thumbs.db 

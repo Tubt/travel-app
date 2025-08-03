@@ -13,6 +13,8 @@
     "test:headed": "cypress run --headed",
     "test:chrome": "cypress run --browser chrome",
     "test:firefox": "cypress run --browser firefox",
+    "docker:test": "cd .. && docker-compose up --build --abort-on-container-exit",
+    "docker:app": "cd .. && docker-compose up travel-app",
     "dev": "echo 'Starting dev server...' && cd .. && npm run dev"
   },
   "devDependencies": {

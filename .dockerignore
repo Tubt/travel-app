@@ -1,0 +1,17 @@
+node_modules
+test/node_modules
+test/results
+test/cypress
+*.log
+.git
+.github
+README.md
+.env
+.DS_Store
+Thumbs.db
+dist
+*.mp4
+*.png
+*.jpg
+coverage
+.nyc_output 
