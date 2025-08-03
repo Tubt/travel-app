@@ -16,7 +16,7 @@ Hướng dẫn này sẽ giúp bạn chạy ứng dụng Travel App và Cypress 
 npm run docker:test
 
 # Hoặc chạy thủ công:
-docker-compose up --build
+docker compose up --build
 ```
 
 ### 2. Development Mode 
@@ -36,10 +36,10 @@ npm run docker:test-dev
 
 ```bash
 # Production app (port 3000)
-docker-compose up app
+docker compose up app
 
 # Development app (port 5173)  
-docker-compose -f docker-compose.dev.yml up app-dev
+docker compose -f docker-compose.dev.yml up app-dev
 ```
 
 ### 4. Dọn dẹp
@@ -49,10 +49,10 @@ docker-compose -f docker-compose.dev.yml up app-dev
 npm run docker:down
 
 # Xóa images (nếu cần)
-docker-compose down --rmi all
+docker compose down --rmi all
 
 # Xóa volumes
-docker-compose down --volumes
+docker compose down --volumes
 ```
 
 ## 🔧 Cấu hình
@@ -90,11 +90,11 @@ Khi push code lên GitHub, tự động chạy:
 ### Lỗi kết nối app và Cypress
 ```bash
 # Kiểm tra containers
-docker-compose ps
+docker compose ps
 
 # Xem logs
-docker-compose logs app
-docker-compose logs cypress
+docker compose logs app
+docker compose logs cypress
 ```
 
 ### Port đã được sử dụng
@@ -109,8 +109,8 @@ lsof -i :5173
 ### Rebuild images
 ```bash
 # Force rebuild
-docker-compose build --no-cache
-docker-compose up --build --force-recreate
+docker compose build --no-cache
+docker compose up --build --force-recreate
 ```
 
 ## 📝 Scripts Chính
