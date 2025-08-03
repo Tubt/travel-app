@@ -1,4 +1,5 @@
 /// <reference types="cypress" />
+/// <reference path="../../support/cypress.d.ts" />
 
 describe('Basic UI Check Tests', () => {
 
@@ -6,7 +7,7 @@ describe('Basic UI Check Tests', () => {
     cy.visit('/')
   })
 
-  describe('Homepage UI Elements', { tag: 'checklist_integrated'}, () => {
+  describe('Homepage UI Elements', { tags: 'checklist_integrated' }, () => {
     it('should display all main UI components', () => {
       // Check page loads successfully
       cy.get('body').should('be.visible')
@@ -82,7 +83,7 @@ describe('Basic UI Check Tests', () => {
     })
   })
 
-  describe('Responsive Layout Check', () => {
+  describe('Responsive Layout Check', { tags: 'checklist_integrated' }, () => {
     const viewports = [
       { name: 'mobile', width: 375, height: 667 },
       { name: 'tablet', width: 768, height: 1024 },

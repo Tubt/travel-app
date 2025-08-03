@@ -1,6 +1,6 @@
-import { defineConfig } from 'cypress'
+const { defineConfig } = require('cypress')
 
-export default defineConfig({
+module.exports = defineConfig({
   e2e: {
     // Base URL for the application
     baseUrl: 'http://localhost:5173',
@@ -42,6 +42,9 @@ export default defineConfig({
     },
     
     setupNodeEvents(on, config) {
+      // Setup cypress grep plugin for tags
+      require('@cypress/grep/src/plugin')(config);
+      
       // Task definitions
       on('task', {
         log(message) {

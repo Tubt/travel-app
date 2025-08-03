@@ -1,0 +1,28 @@
+{
+  "name": "travel-app-cypress-tests",
+  "version": "1.0.0",
+  "description": "Cypress E2E tests for travel application",
+  "private": true,
+  "scripts": {
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run",
+    "test:smoke": "cypress run --spec 'e2e/smoke/**/*.cy.ts'",
+    "test:integration": "cypress run --spec 'e2e/integration/**/*.cy.ts'",
+    "test:checklist": "cypress run --spec 'e2e/integration/userJourney.cy.ts' --env grepTags=checklist_integrated",
+    "test:all": "cypress run",
+    "test:headed": "cypress run --headed",
+    "test:chrome": "cypress run --browser chrome",
+    "test:firefox": "cypress run --browser firefox",
+    "dev": "echo 'Starting dev server...' && cd .. && npm run dev"
+  },
+  "devDependencies": {
+    "@cypress/grep": "^4.1.0",
+    "cypress": "^13.15.2",
+    "typescript": "^5.5.3",
+    "wait-on": "^8.0.1"
+  },
+  "dependencies": {},
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

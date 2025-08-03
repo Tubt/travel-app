@@ -1,0 +1,156 @@
+name: Cypress E2E Tests
+
+on:
+  push:
+    branches: [ main, master, develop ]
+  pull_request:
+    branches: [ main, master, develop ]
+  workflow_dispatch:
+    inputs:
+      test_tags:
+        description: 'Test tags to run (e.g., checklist_integrated)'
+        required: false
+        default: 'checklist_integrated'
+
+jobs:
+  cypress-run:
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        node-version: [22.13.0]
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: |
+          cd test
+          npm ci
+
+      - name: Install Cypress dependencies
+        run: |
+          cd test
+          npx cypress install
+
+      - name: Start application server
+        run: |
+          cd test
+          npm run dev &
+          sleep 30
+        env:
+          CI: true
+
+      - name: Wait for server to be ready
+        run: |
+          npx wait-on http://localhost:5173 --timeout 60000
+
+      - name: Run Cypress tests with checklist_integrated tag
+        run: |
+          cd test
+          npx cypress run \
+            --spec "e2e/integration/userJourney.cy.ts" \
+            --browser chrome \
+            --headless \
+            --config video=true,screenshotOnRunFailure=true
+        env:
+          CYPRESS_baseUrl: http://localhost:5173
+
+      - name: Upload Cypress screenshots
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: cypress-screenshots
+          path: test/results/screenshots
+          retention-days: 7
+
+      - name: Upload Cypress videos
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: cypress-videos
+          path: test/results/videos
+          retention-days: 7
+
+      - name: Upload Cypress test results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: cypress-results
+          path: test/results
+          retention-days: 7
+
+  # Separate job specifically for checklist_integrated tests
+  checklist-integrated-tests:
+    runs-on: ubuntu-latest
+    if: contains(github.event.head_commit.message, 'checklist_integrated') || github.event_name == 'workflow_dispatch'
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Use Node.js 22.13.0
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.13.0
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: |
+          cd test
+          npm ci
+
+      - name: Install Cypress dependencies
+        run: |
+          cd test
+          npx cypress install
+
+      - name: Start application server
+        run: |
+          cd test
+          npm run dev &
+          sleep 30
+        env:
+          CI: true
+
+      - name: Wait for server to be ready
+        run: |
+          npx wait-on http://localhost:5173 --timeout 60000
+
+      - name: Run checklist_integrated tests
+        run: |
+          cd test
+          npx cypress run \
+            --spec "e2e/integration/userJourney.cy.ts" \
+            --browser chrome \
+            --headless \
+            --config video=true,screenshotOnRunFailure=true \
+            --env grepTags=checklist_integrated
+        env:
+          CYPRESS_baseUrl: http://localhost:5173
+
+      - name: Create test summary
+        if: always()
+        run: |
+          echo "## 🧪 Checklist Integrated Tests Results" >> $GITHUB_STEP_SUMMARY
+          echo "- Test file: \`userJourney.cy.ts\`" >> $GITHUB_STEP_SUMMARY
+          echo "- Tag: \`checklist_integrated\`" >> $GITHUB_STEP_SUMMARY
+          echo "- Browser: Chrome" >> $GITHUB_STEP_SUMMARY
+          echo "- Base URL: http://localhost:5173" >> $GITHUB_STEP_SUMMARY
+
+      - name: Upload test artifacts for checklist_integrated
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: checklist-integrated-results
+          path: |
+            test/results/
+            test/cypress/
+          retention-days: 7 

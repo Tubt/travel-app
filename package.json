@@ -1,37 +1,27 @@
 {
-  "name": "travel-app",
+  "name": "poc-tusk-sdk",
+  "version": "1.0.0",
+  "description": "Travel application with Cypress testing framework",
   "private": true,
-  "version": "0.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "cypress:open": "cd test && cypress open",
-    "cypress:run": "cd test && cypress run",
-    "test:smoke": "cd test && cypress run --spec 'e2e/smoke/**/*.cy.ts'",
-    "test:integration": "cd test && cypress run --spec 'e2e/integration/**/*.cy.ts'",
-    "test:regression": "cd test && cypress run --spec 'e2e/regression/**/*.cy.ts'",
-    "test:all": "cd test && cypress run",
-    "test:headed": "cd test && cypress run --headed",
-    "test:chrome": "cd test && cypress run --browser chrome",
-    "test:firefox": "cd test && cypress run --browser firefox",
-    "test:mobile": "cd test && cypress run --config viewportWidth=375,viewportHeight=667",
-    "test:tablet": "cd test && cypress run --config viewportWidth=768,viewportHeight=1024",
-    "test:desktop": "cd test && cypress run --config viewportWidth=1280,viewportHeight=720"
+    "test": "cd test && npm run cypress:run",
+    "test:open": "cd test && npm run cypress:open",
+    "test:checklist": "cd test && npm run test:checklist"
   },
   "dependencies": {
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },
   "devDependencies": {
-    "@cypress/grep": "^4.1.0",
     "@eslint/js": "^9.9.0",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react": "^4.3.1",
-    "cypress": "^14.5.3",
     "eslint": "^9.9.0",
     "eslint-plugin-react-hooks": "^5.1.0-rc.0",
     "eslint-plugin-react-refresh": "^0.4.9",
@@ -39,5 +29,8 @@
     "typescript": "^5.5.3",
     "typescript-eslint": "^8.0.1",
     "vite": "^5.4.1"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   }
 }

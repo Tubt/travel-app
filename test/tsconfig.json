@@ -14,7 +14,8 @@
   },
   "include": [
     "**/*.ts",
-    "**/*.tsx"
+    "**/*.tsx",
+    "support/cypress.d.ts"
   ],
   "exclude": [
     "node_modules",
