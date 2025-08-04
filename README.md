@@ -45,8 +45,8 @@ git --version
 ### 1. Clone repository
 
 ```bash
-git clone https://github.com/your-username/poc-tusk-sdk.git
-cd poc-tusk-sdk/travel-app
+git clone https://github.com/your-username/travel-app.git
+cd travel-app
 ```
 
 ### 2. Cài đặt dependencies
