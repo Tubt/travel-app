@@ -17,7 +17,7 @@ describe("Homepage Smoke Tests", () => {
       homePage.verifyPageTitle();
 
       // Verify main elements are visible
-      cy.get(".header").should("not.be.visible");
+      cy.get(".header").should("be.visible");
       cy.get(".banner-slider").should("be.visible");
       cy.get(".grid").should("be.visible");
       cy.get("footer").should("be.visible");
