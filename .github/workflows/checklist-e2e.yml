@@ -1,12 +1,7 @@
-name: Checklist Test copy
+name: E2E Test Suite
 
 on:
   workflow_dispatch:
-    inputs:
-      test_tags:
-        description: "Test tags to run (e.g., checklist_integrated)"
-        required: false
-        default: "checklist_integrated"
 
 jobs:
   test:
@@ -29,7 +24,7 @@ jobs:
 
       - name: Run Cypress tests
         run: |
-          docker compose -f docker-compose.yml -f docker-compose.integrated.yml up --build cypress
+          docker compose up --build cypress
 
       - name: Stop services
         if: always()
