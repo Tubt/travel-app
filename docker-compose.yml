@@ -40,7 +40,7 @@ services:
     networks:
       - travel-app-network
     entrypoint: ["sh", "-c"]
-    command: ["sleep 10 && npm run test:checklist-integrated"]
+    command: ["sleep 1"]
 
 networks:
   travel-app-network:
