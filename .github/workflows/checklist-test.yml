@@ -62,7 +62,7 @@ jobs:
           authToken: ${{ secrets.TUSK_AUTH_TOKEN }}
           testFramework: "cypress"
           testFileRegex: "^test/e2e/.*\\.cy\\.(js|ts)$"
-          testScript: "docker compose run --rm cypress npx cypress run --spec {{ file }}"
+          testScript: "docker compose run --rm --no-deps cypress npx cypress"
       - name: Stop services
         if: always()
         run: |

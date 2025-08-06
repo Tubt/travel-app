@@ -40,7 +40,7 @@ services:
     networks:
       - travel-app-network
     entrypoint: ["sh", "-c"]
-    command: ["sleep 1"]
+    command: ["echo 'Cypress container ready'"]
 
 networks:
   travel-app-network:
