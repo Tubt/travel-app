@@ -1,0 +1,89 @@
+name: Direct Test Runner (Alternative)
+
+on:
+  workflow_dispatch:
+    inputs:
+      testType:
+        description: "Test type to run"
+        required: true
+        default: "smoke"
+        type: choice
+        options:
+          - smoke
+          - integration
+          - all
+
+jobs:
+  direct-test:
+    name: Direct Test Execution
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: |
+          npm ci
+          cd test && npm ci
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Clean up existing containers
+        run: |
+          docker compose down --remove-orphans || true
+          docker system prune -f || true
+
+      - name: Build and start app service
+        run: |
+          docker compose up --build --force-recreate -d app
+
+      - name: Wait for app to be ready
+        run: |
+          timeout 60 sh -c 'until curl -f http://localhost:3000; do sleep 2; done'
+
+      - name: Run tests based on type
+        run: |
+          case "${{ github.event.inputs.testType }}" in
+            "smoke")
+              echo "Running smoke tests..."
+              docker compose run --rm --no-deps cypress npx cypress run --spec "e2e/smoke/**/*.cy.ts"
+              ;;
+            "integration")
+              echo "Running integration tests..."
+              docker compose run --rm --no-deps cypress npx cypress run --spec "e2e/integration/**/*.cy.ts"
+              ;;
+            "all")
+              echo "Running all tests..."
+              docker compose run --rm --no-deps cypress npx cypress run --spec "e2e/**/*.cy.ts"
+              ;;
+            *)
+              echo "Unknown test type: ${{ github.event.inputs.testType }}"
+              exit 1
+              ;;
+          esac
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cypress-results-${{ github.event.inputs.testType }}
+          path: |
+            test/results/
+            test/cypress/videos/
+            test/cypress/screenshots/
+          retention-days: 7
+
+      - name: Stop services
+        if: always()
+        run: |
+          docker compose down --remove-orphans --volumes
+          docker system prune -f || true

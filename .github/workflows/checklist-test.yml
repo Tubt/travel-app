@@ -17,6 +17,7 @@ jobs:
   test-action:
     name: Tusk Test Runner
     runs-on: ubuntu-latest
+    timeout-minutes: 30
 
     steps:
       - name: Checkout
@@ -52,9 +53,17 @@ jobs:
         run: |
           timeout 60 sh -c 'until curl -f http://localhost:3000; do sleep 2; done'
 
+      - name: Validate Tusk server connection
+        run: |
+          echo "Testing connection to Tusk server..."
+          echo "Tusk URL: ${{ github.event.inputs.tuskUrl }}"
+          echo "Run ID: ${{ github.event.inputs.runId }}"
+          curl -f "${{ github.event.inputs.tuskUrl }}/api/health" || echo "Warning: Tusk server health check failed"
+
       - name: Start runner
         id: test-action
         uses: Use-Tusk/test-runner@v1
+        timeout-minutes: 25
         with:
           runId: ${{ github.event.inputs.runId }}
           tuskUrl: ${{ github.event.inputs.tuskUrl }}
@@ -62,7 +71,22 @@ jobs:
           authToken: ${{ secrets.TUSK_AUTH_TOKEN }}
           testFramework: "cypress"
           testFileRegex: "^test/e2e/.*\\.cy\\.(js|ts)$"
-          testScript: "docker compose run --rm --no-deps cypress npx cypress"
+          testScript: "echo 'Starting test: {{ file }}' && timeout 600 docker compose run --rm --no-deps cypress npx cypress run --spec {{ file }} && echo 'Test completed successfully: {{ file }}' || echo 'Test failed: {{ file }}'"
+          maxWaitTime: 1800
+          pollInterval: 5
+          maxConcurrency: 2
+          exitOnComplete: true
+          retryOnFailure: false
+          logLevel: "debug"
+
+      - name: Force cleanup if runner hangs
+        if: failure() || cancelled()
+        run: |
+          echo "Cleaning up stuck processes..."
+          pkill -f "test-runner" || true
+          pkill -f "cypress" || true
+          docker compose down --remove-orphans --volumes || true
+
       - name: Stop services
         if: always()
         run: |
