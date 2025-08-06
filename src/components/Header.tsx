@@ -5,53 +5,61 @@ const Header: React.FC = () => {
   const location = useLocation();
 
   return (
-    <header className="header">
+    <header className="header" data-testid="header">
       <div className="header-container">
-        <div className="logo">
-          <Link to="/" className="logo-link">
-            <span className="logo-text">DULICHMETOO</span>
+        <div className="logo" data-testid="logo">
+          <Link to="/" className="logo-link" data-testid="logo-link">
+            <span className="logo-text" data-testid="logo-text">
+              DULICHVIETNAM
+            </span>
             <span className="logo-subtitle">
               Tổ chức tour chuyên nghiệp .com.vn
             </span>
           </Link>
         </div>
 
-        <nav className="main-nav">
+        <nav className="main-nav" data-testid="main-nav">
           <div className="nav-menu">
             <Link
               to="/"
               className={`nav-link ${location.pathname === "/" ? "active" : ""}`}
+              data-testid="nav-link-home"
             >
               Trang chủ
             </Link>
             <Link
               to="/tour-du-lich"
               className={`nav-link ${location.pathname === "/tour-du-lich" ? "active" : ""}`}
+              data-testid="nav-link-tour"
             >
               Tour Du Lịch
             </Link>
             <Link
               to="/so-tay-du-lich"
               className={`nav-link ${location.pathname === "/so-tay-du-lich" ? "active" : ""}`}
+              data-testid="nav-link-handbook"
             >
               Sổ tay du lịch
             </Link>
             <Link
-              to="/gioi-thieu"
-              className={`nav-link ${location.pathname === "/gioi-thieu" ? "active" : ""}`}
+              to="/gioi-thieu-du-lich"
+              className={`nav-link ${location.pathname === "/gioi-thieu-du-lich" ? "active" : ""}`}
+              data-testid="nav-link-about"
             >
               Giới thiệu
             </Link>
           </div>
         </nav>
 
-        <div className="header-contact">
-          <div className="support-dropdown">
+        <div className="header-contact" data-testid="header-contact">
+          <div className="support-dropdown" data-testid="support-dropdown">
             <span>Hỗ trợ toàn quốc ▼</span>
           </div>
-          <div className="hotline">
+          <div className="hotline" data-testid="hotline">
             <span className="phone-icon">📞</span>
-            <span className="phone-number">0909009009</span>
+            <span className="phone-number" data-testid="phone-number">
+              1800 8989
+            </span>
           </div>
         </div>
       </div>

@@ -26,7 +26,7 @@ function App() {
           <Route path="/tour-du-lich" element={<TourDuLichPage />} />
           <Route path="/khach-san" element={<KhachSanPage />} />
           <Route path="/so-tay-du-lich" element={<SoTayDuLichPage />} />
-          <Route path="/gioi-thieu" element={<GioiThieuPage />} />
+          <Route path="/gioi-thieu-du-lich" element={<GioiThieuPage />} />
         </Routes>
 
         {/* Footer */}

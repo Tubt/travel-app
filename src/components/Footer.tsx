@@ -7,7 +7,7 @@ const Footer: React.FC = () => {
         <div className="footer-section">
           <h3>CÔNG TY DU LỊCH DỊCH VỤ METOO</h3>
           <p>
-            📞 Hotline: <strong>0909009009</strong>
+            📞 Hotline: <strong>1800 8989</strong>
           </p>
           <p>📧 Email: info@metootravel.com</p>
           <p>🏢 Địa chỉ: 78 CMT8, P.Võ Thị Sáu, Q.3, TP.HCM</p>

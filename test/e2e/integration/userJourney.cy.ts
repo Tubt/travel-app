@@ -64,5 +64,11 @@ describe("Basic UI Check Tests", () => {
       cy.get(".next-btn").should("be.visible").and("not.be.disabled");
       cy.get(".signup-btn").should("be.visible").and("not.be.disabled");
     });
+
+    // click on the 'Giới thiệu' link in the header
+    it("should navigate to the 'Giới thiệu' page", () => {
+      cy.get('[data-testid="nav-link-about"]').click();
+      cy.url().should("include", "/gioi-thieu-du-lich");
+    });
   });
 });
