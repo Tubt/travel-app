@@ -3,27 +3,39 @@ import React from "react";
 // Components
 import { BannerSlider, Sidebar, TravelMenu } from "../components";
 
+/**
+ * SoTayDuLichPage component - Travel handbook and tips page
+ *
+ * Features:
+ * - Comprehensive travel tips and guides
+ * - Categorized travel advice (packing, budget, photography, etc.)
+ * - Professional travel information
+ * - Interactive tip cards with detailed content
+ * - Essential travel knowledge base
+ */
 const SoTayDuLichPage: React.FC = () => {
   return (
     <>
       {/* Main Layout with Sidebars */}
-      <div className="main-layout">
+      <div className="main-layout" data-testid="handbook-page-layout">
         <Sidebar position="left" title="Hà Giang" subtitle="Ruộng bậc thang" />
 
-        <div className="main-content">
+        <div className="main-content" data-testid="handbook-page-content">
           <BannerSlider />
 
           {/* Travel Menu Navigation */}
           <TravelMenu />
 
           {/* Page Content */}
-          <div className="page-content">
-            <div className="page-header">
-              <h1>📖 Sổ Tay Du Lịch</h1>
-              <p>Kinh nghiệm và bí quyết cho chuyến đi hoàn hảo</p>
+          <div className="page-content" data-testid="handbook-main-content">
+            <div className="page-header" data-testid="handbook-page-header">
+              <h1 data-testid="handbook-page-title">📖 Sổ Tay Du Lịch</h1>
+              <p data-testid="handbook-page-subtitle">
+                Kinh nghiệm và bí quyết cho chuyến đi hoàn hảo
+              </p>
             </div>
 
-            <div className="travel-tips-grid">
+            <div className="travel-tips-grid" data-testid="handbook-tips-grid">
               <div className="tip-category">
                 <h2>🎒 Chuẩn bị hành lý</h2>
                 <div className="tip-cards">

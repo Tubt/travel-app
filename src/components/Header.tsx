@@ -1,6 +1,21 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
 
+/**
+ * Header component for the travel application navigation
+ *
+ * Features:
+ * - Logo with company branding
+ * - Navigation menu with active state indication
+ * - Contact information with hotline number
+ * - Support dropdown for customer assistance
+ *
+ * Critical user journeys:
+ * - Users must be able to navigate between pages
+ * - Users must see active page indication
+ * - Users must access contact information
+ * - Logo should return users to homepage
+ */
 const Header: React.FC = () => {
   const location = useLocation();
 

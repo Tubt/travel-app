@@ -1,0 +1,66 @@
+name: PR Tests
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  push:
+    branches: [main, master]
+
+jobs:
+  test:
+    name: E2E Tests on PR
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: |
+          npm ci
+          cd test && npm ci
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Clean up existing containers
+        run: |
+          docker compose down --remove-orphans || true
+          docker system prune -f || true
+
+      - name: Build and start app service
+        run: |
+          docker compose up --build --force-recreate -d app
+
+      - name: Wait for app to be ready
+        run: |
+          timeout 60 sh -c 'until curl -f http://localhost:3000; do sleep 2; done'
+
+      - name: Run all Cypress tests
+        run: |
+          echo "Running all E2E tests..."
+          docker compose run --rm --no-deps cypress npx cypress run --spec "e2e/**/*.cy.ts"
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cypress-results-pr
+          path: |
+            test/results/
+            test/cypress/videos/
+            test/cypress/screenshots/
+          retention-days: 7
+
+      - name: Stop services
+        if: always()
+        run: |
+          docker compose down --remove-orphans --volumes
+          docker system prune -f || true

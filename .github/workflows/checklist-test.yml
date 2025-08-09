@@ -1,6 +1,7 @@
 name: Tusk E2E Test Suite
 
 on:
+  # Only allow manual dispatch with TUSK parameters
   workflow_dispatch:
     inputs:
       runId:
@@ -16,6 +17,8 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    # Only run if this is a manual dispatch with TUSK parameters
+    if: github.event_name == 'workflow_dispatch'
 
     steps:
       - name: Checkout code

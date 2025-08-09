@@ -13,6 +13,17 @@ import {
 // Hooks
 import { useDestinationModal } from "../hooks";
 
+/**
+ * HomePage component - Main landing page for the travel application
+ *
+ * Features:
+ * - Hero banner with promotional content
+ * - Travel menu for quick navigation
+ * - Search functionality for tours
+ * - Destination grid with interactive cards
+ * - Modal for detailed destination information
+ * - Sidebar promotional content
+ */
 const HomePage: React.FC = () => {
   const {
     likes,
@@ -26,10 +37,10 @@ const HomePage: React.FC = () => {
   return (
     <>
       {/* Main Layout with Sidebars */}
-      <div className="main-layout">
+      <div className="main-layout" data-testid="homepage-main-layout">
         <Sidebar position="left" title="Hà Giang" subtitle="Ruộng bậc thang" />
 
-        <div className="main-content">
+        <div className="main-content" data-testid="homepage-main-content">
           <BannerSlider />
 
           {/* Travel Menu Navigation */}

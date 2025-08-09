@@ -1,0 +1,142 @@
+# Tusk Configuration for Travel App
+# This file helps Tusk understand the project structure and testing requirements
+
+project:
+  name: "Travel App"
+  description: "Travel booking and information website"
+  type: "react-typescript"
+
+# Test framework configuration
+testing:
+  framework: "cypress"
+  testDirectory: "test"
+  testFilePattern: "test/e2e/integration/**/*.cy.{js,ts}"
+
+  # Test execution configuration
+  execution:
+    dockerized: true
+    command: "docker compose up --build cypress"
+    baseUrl: "http://app:3000"
+
+  # Component testing guidelines
+  components:
+    # Priority components that should always have tests
+    priority:
+      - "src/components/Header.tsx"
+      - "src/components/Footer.tsx"
+      - "src/components/SearchSection.tsx"
+      - "src/components/DestinationGrid.tsx"
+      - "src/components/DestinationModal.tsx"
+
+    # Page components that provide business value
+    pages:
+      - "src/pages/HomePage.tsx"
+      - "src/pages/GioiThieuPage.tsx"
+      - "src/pages/TourDuLichPage.tsx"
+      - "src/pages/SoTayDuLichPage.tsx"
+
+# Business value indicators for test generation
+businessValue:
+  # Critical user journeys that must be tested
+  criticalJourneys:
+    - "User navigation between pages"
+    - "Contact information accessibility"
+    - "Search functionality"
+    - "Destination browsing and selection"
+    - "Newsletter signup"
+    - "Company information display"
+
+  # Key UI elements that affect user experience
+  keyElements:
+    - "Navigation menu with active states"
+    - "Company branding and logo"
+    - "Contact information (hotline: 1800 8989)"
+    - "Search and filter functionality"
+    - "Destination cards and details"
+    - "Newsletter subscription form"
+
+# Test generation guidelines
+generation:
+  # What makes a component worth testing
+  testableComponents:
+    criteria:
+      - "Contains user interactions (clicks, forms, navigation)"
+      - "Displays business-critical information"
+      - "Has conditional rendering or state changes"
+      - "Involves data validation or processing"
+      - "Affects user experience or conversion"
+
+  # Test scenarios to prioritize
+  testScenarios:
+    - "Element visibility and content verification"
+    - "User interaction functionality"
+    - "Navigation and routing behavior"
+    - "Form validation and submission"
+    - "Responsive design across devices"
+    - "Accessibility compliance"
+
+  # Elements to focus on for test generation
+  focusAreas:
+    - "data-testid attributes for reliable element selection"
+    - "Business logic implementation"
+    - "User input validation"
+    - "State management and updates"
+    - "Error handling and edge cases"
+
+# Page Object Model configuration
+pageObjects:
+  location: "test/pageObjects"
+  pattern: "**/*.ts"
+
+  # Encourage use of page object methods for maintainable tests
+  guidelines:
+    - "Use page object methods for complex interactions"
+    - "Encapsulate element selectors in page objects"
+    - "Create reusable verification methods"
+    - "Maintain clear method naming conventions"
+
+# Cypress-specific configuration
+cypress:
+  configFile: "test/cypress.config.js"
+  supportFile: "test/support/e2e.ts"
+
+  # Test execution preferences
+  execution:
+    retries:
+      runMode: 1
+      openMode: 0
+    video: true
+    screenshots: true
+
+  # Environment configuration
+  environment:
+    baseUrl: "http://localhost:5173" # Development URL
+    apiUrl: "http://localhost:3001/api"
+
+# Code quality and standards
+quality:
+  # Linting and formatting
+  linting:
+    typescript: true
+    eslint: true
+    prettier: true
+
+  # Test quality standards
+  testStandards:
+    - "Use descriptive test names that explain business value"
+    - "Include proper setup and teardown"
+    - "Test both positive and negative scenarios"
+    - "Ensure tests are independent and reliable"
+    - "Use appropriate wait strategies"
+
+# Documentation and examples
+documentation:
+  examples:
+    location: "test/examples"
+    headerTests: "test/e2e/integration/header.cy.ts"
+
+  guidelines:
+    - "Follow the existing test patterns in header.cy.ts"
+    - "Use data-testid for element selection"
+    - "Include both functional and visual testing"
+    - "Document test purpose and business value"
