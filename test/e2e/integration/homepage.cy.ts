@@ -27,9 +27,9 @@ describe("Homepage Smoke Tests", () => {
     });
 
     it("should display company logo and branding", () => {
-      cy.get(".logo-text").should("contain", "DULICHMETOO");
+      cy.get(".logo-text").should("contain", "DULICHVIETNAM");
       cy.get("footer").should("contain", "CÔNG TY DU LỊCH DỊCH VỤ METOO");
-      cy.get("footer").should("contain", "0909009009");
+      cy.get("footer").should("contain", "1800 8989");
     });
   });
 

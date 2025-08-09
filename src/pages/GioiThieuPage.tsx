@@ -113,7 +113,7 @@ const GioiThieuPage: React.FC = () => {
                     TP.HCM
                   </p>
                   <p>
-                    <strong>📞 Hotline:</strong> 0909009009
+                    <strong>📞 Hotline:</strong> 1800 8989
                   </p>
                   <p>
                     <strong>📧 Email:</strong> info@metootravel.com

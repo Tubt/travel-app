@@ -4,10 +4,18 @@ export class HomePage {
   // Page elements selectors
   private readonly elements = {
     // Header elements
-    header: ".header",
-    logo: ".logo-text",
-    mainNav: ".main-nav",
-    headerContact: ".header-contact",
+    header: '[data-testid="header"]',
+    logo: '[data-testid="logo-text"]',
+    logoLink: '[data-testid="logo-link"]',
+    mainNav: '[data-testid="main-nav"]',
+    headerContact: '[data-testid="header-contact"]',
+    supportDropdown: '[data-testid="support-dropdown"]',
+    hotline: '[data-testid="hotline"]',
+    phoneNumber: '[data-testid="phone-number"]',
+    navLinkHome: '[data-testid="nav-link-home"]',
+    navLinkTour: '[data-testid="nav-link-tour"]',
+    navLinkHandbook: '[data-testid="nav-link-handbook"]',
+    navLinkAbout: '[data-testid="nav-link-about"]',
 
     // Banner slider elements
     bannerSlider: ".banner-slider",
@@ -73,11 +81,80 @@ export class HomePage {
 
   // Header actions
   clickLogo(): void {
-    cy.get(this.elements.logo).click();
+    cy.get(this.elements.logoLink).click();
   }
 
   navigateToSection(sectionName: string): void {
     cy.get(this.elements.mainNav).contains(sectionName).click();
+  }
+
+  // Specific header navigation methods
+  navigateToHome(): void {
+    cy.get(this.elements.navLinkHome).click();
+  }
+
+  navigateToTour(): void {
+    cy.get(this.elements.navLinkTour).click();
+  }
+
+  navigateToHandbook(): void {
+    cy.get(this.elements.navLinkHandbook).click();
+  }
+
+  navigateToAbout(): void {
+    cy.get(this.elements.navLinkAbout).click();
+  }
+
+  // Header verification methods
+  verifyHeaderVisible(): void {
+    cy.get(this.elements.header).should("be.visible");
+  }
+
+  verifyLogoText(expectedText: string = "DULICHVIETNAM"): void {
+    cy.get(this.elements.logo)
+      .should("be.visible")
+      .and("contain.text", expectedText);
+  }
+
+  verifyPhoneNumber(expectedNumber: string = "1800 8989"): void {
+    cy.get(this.elements.phoneNumber)
+      .should("be.visible")
+      .and("contain.text", expectedNumber);
+  }
+
+  verifyNavigationLinksVisible(): void {
+    cy.get(this.elements.navLinkHome)
+      .should("be.visible")
+      .and("contain.text", "Trang chủ");
+    cy.get(this.elements.navLinkTour)
+      .should("be.visible")
+      .and("contain.text", "Tour Du Lịch");
+    cy.get(this.elements.navLinkHandbook)
+      .should("be.visible")
+      .and("contain.text", "Sổ tay du lịch");
+    cy.get(this.elements.navLinkAbout)
+      .should("be.visible")
+      .and("contain.text", "Giới thiệu");
+  }
+
+  verifyActiveNavigationLink(expectedActiveLink: string): void {
+    const linkMap = {
+      home: this.elements.navLinkHome,
+      tour: this.elements.navLinkTour,
+      handbook: this.elements.navLinkHandbook,
+      about: this.elements.navLinkAbout,
+    };
+
+    const activeElement = linkMap[expectedActiveLink as keyof typeof linkMap];
+    if (activeElement) {
+      cy.get(activeElement).should("have.class", "active");
+    }
+  }
+
+  verifySupportDropdownVisible(): void {
+    cy.get(this.elements.supportDropdown)
+      .should("be.visible")
+      .and("contain.text", "Hỗ trợ toàn quốc");
   }
 
   // Banner slider actions
