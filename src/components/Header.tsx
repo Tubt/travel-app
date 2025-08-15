@@ -1,8 +1,56 @@
-import React from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
+import "./Header.css";
 
 const Header: React.FC = () => {
   const location = useLocation();
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  const supportRegions = [
+    {
+      region: "Miền Bắc",
+      regionId: "mien-bac", // Add ASCII-only ID for data-testid
+      phone: "0909 009 009",
+      areas: "Hà Nội, Hải Phòng, Quảng Ninh, Lào Cai",
+    },
+    {
+      region: "Miền Trung",
+      regionId: "mien-trung", // Add ASCII-only ID for data-testid
+      phone: "0909 007 007",
+      areas: "Đà Nẵng, Huế, Hội An, Nha Trang",
+    },
+    {
+      region: "Miền Nam",
+      regionId: "mien-nam", // Add ASCII-only ID for data-testid
+      phone: "0909 080 808",
+      areas: "TP.HCM, Cần Thơ, Phú Quốc, Đà Lạt",
+    },
+  ];
+
+  const toggleDropdown = () => {
+    setIsDropdownOpen(!isDropdownOpen);
+  };
+
+  // Handle click outside to close dropdown
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setIsDropdownOpen(false);
+      }
+    };
+
+    if (isDropdownOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isDropdownOpen]);
 
   return (
     <header className="header" data-testid="header">
@@ -52,14 +100,61 @@ const Header: React.FC = () => {
         </nav>
 
         <div className="header-contact" data-testid="header-contact">
-          <div className="support-dropdown" data-testid="support-dropdown">
-            <span>Hỗ trợ toàn quốc ▼</span>
+          <div
+            className="support-dropdown-container"
+            data-testid="support-dropdown-container"
+            ref={dropdownRef}
+          >
+            <button
+              className="support-dropdown"
+              data-testid="support-dropdown"
+              onClick={toggleDropdown}
+            >
+              <span>Hỗ trợ toàn quốc ▼</span>
+            </button>
+
+            {isDropdownOpen && (
+              <div className="dropdown-menu" data-testid="dropdown-menu">
+                <div className="dropdown-header">
+                  <h4>📞 Hotline hỗ trợ theo khu vực</h4>
+                </div>
+                {supportRegions.map((region, index) => (
+                  <div
+                    key={index}
+                    className="dropdown-item"
+                    data-testid={`dropdown-item-${region.regionId}`}
+                  >
+                    <div className="region-info">
+                      <div className="region-header">
+                        <span className="region-name">{region.region}</span>
+                        <a
+                          href={`tel:${region.phone.replace(/\s/g, "")}`}
+                          className="region-phone"
+                          data-testid={`phone-${region.regionId}`}
+                        >
+                          📞 {region.phone}
+                        </a>
+                      </div>
+                      <div className="region-areas">{region.areas}</div>
+                    </div>
+                  </div>
+                ))}
+                <div className="dropdown-footer" data-testid="dropdown-footer">
+                  <small>Thời gian hỗ trợ: 8:00 - 22:00 hàng ngày</small>
+                </div>
+              </div>
+            )}
           </div>
+
           <div className="hotline" data-testid="hotline">
             <span className="phone-icon">📞</span>
-            <span className="phone-number" data-testid="phone-number">
+            <a
+              href="tel:18008989"
+              className="phone-number"
+              data-testid="phone-number"
+            >
               1800 8989
-            </span>
+            </a>
           </div>
         </div>
       </div>

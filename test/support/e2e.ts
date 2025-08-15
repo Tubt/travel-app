@@ -10,11 +10,32 @@ import "./helpers/testHelpers";
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
 
-// Global configuration
-Cypress.on("uncaught:exception", () => {
-  // Prevent Cypress from failing the test on uncaught exceptions
-  // that might come from the application under test
-  return false;
+// Global configuration - Handle uncaught exceptions
+Cypress.on("uncaught:exception", (err, runnable) => {
+  // List of errors to ignore
+  const ignoredErrors = [
+    "No session or session expired",
+    "Network Error",
+    "ChunkLoadError",
+    "Loading chunk",
+    "ResizeObserver loop limit exceeded",
+    "Non-Error promise rejection captured",
+  ];
+
+  // Check if error message matches any ignored patterns
+  const shouldIgnore = ignoredErrors.some(
+    (ignoredError) =>
+      err.message.includes(ignoredError) || err.name.includes(ignoredError)
+  );
+
+  if (shouldIgnore) {
+    console.log("🚫 Ignoring uncaught exception:", err.message);
+    return false; // Prevent test failure
+  }
+
+  // For debugging - log unexpected errors
+  console.error("❌ Unexpected uncaught exception:", err.message);
+  return false; // Still prevent failure, but log for investigation
 });
 
 // Global before hook

@@ -34,6 +34,13 @@ module.exports = defineConfig({
       openMode: 0,
     },
 
+    // Clean output - disable color codes and reduce verbosity
+    reporter: "spec",
+    reporterOptions: {
+      displayErrorDetails: true,
+      displayStacktrace: false,
+    },
+
     // Environment variables
     env: {
       environment: "local",
