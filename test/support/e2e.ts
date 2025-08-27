@@ -40,8 +40,24 @@ Cypress.on("uncaught:exception", (err, runnable) => {
 
 // Global before hook
 beforeEach(() => {
-  // Set viewport consistently
-  cy.viewport(1280, 720);
+  // Skip mobile tests if TUSK_DESKTOP_ONLY is enabled
+  if (Cypress.env("TUSK_DESKTOP_ONLY")) {
+    // Check if current test is trying to use mobile viewport
+    const currentTest = Cypress.currentTest;
+    if (
+      currentTest.title.toLowerCase().includes("mobile") ||
+      currentTest.title.toLowerCase().includes("320px") ||
+      currentTest.title.toLowerCase().includes("small screen")
+    ) {
+      cy.log("🚫 Skipping mobile test - TUSK_DESKTOP_ONLY enabled");
+      return; // Skip this test
+    }
+  }
+
+  // Set viewport consistently to desktop
+  const viewportWidth = Cypress.env("TUSK_VIEWPORT_WIDTH") || 1280;
+  const viewportHeight = Cypress.env("TUSK_VIEWPORT_HEIGHT") || 720;
+  cy.viewport(viewportWidth, viewportHeight);
 
   // Clear local storage and cookies before each test
   cy.clearLocalStorage();

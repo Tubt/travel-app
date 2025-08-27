@@ -27,6 +27,16 @@ function App() {
           <Route path="/khach-san" element={<KhachSanPage />} />
           <Route path="/so-tay-du-lich" element={<SoTayDuLichPage />} />
           <Route path="/gioi-thieu-du-lich" element={<GioiThieuPage />} />
+          <Route
+            path="/health"
+            element={
+              <div style={{ padding: "20px", textAlign: "center" }}>
+                <h2>✅ App is healthy</h2>
+                <p>Status: OK</p>
+                <p>Timestamp: {new Date().toISOString()}</p>
+              </div>
+            }
+          />
         </Routes>
 
         {/* Footer */}

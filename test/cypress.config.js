@@ -46,6 +46,11 @@ module.exports = defineConfig({
       environment: "local",
       apiUrl: "http://localhost:3001/api",
       emailDomain: "@metoo.com",
+      // TUSK configuration
+      TUSK_DESKTOP_ONLY: true,
+      TUSK_SKIP_MOBILE: true,
+      TUSK_VIEWPORT_WIDTH: 1280,
+      TUSK_VIEWPORT_HEIGHT: 720,
     },
 
     setupNodeEvents(on, config) {

@@ -32,6 +32,11 @@ const Header: React.FC = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
 
+  // Helper function to format phone number for tel: links
+  const formatPhoneForTel = (phone: string): string => {
+    return phone.replace(/[\s\-\(\)\+]/g, "");
+  };
+
   // Handle click outside to close dropdown
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -128,7 +133,7 @@ const Header: React.FC = () => {
                       <div className="region-header">
                         <span className="region-name">{region.region}</span>
                         <a
-                          href={`tel:${region.phone.replace(/\s/g, "")}`}
+                          href={`tel:${formatPhoneForTel(region.phone)}`}
                           className="region-phone"
                           data-testid={`phone-${region.regionId}`}
                         >
