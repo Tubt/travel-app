@@ -105,10 +105,43 @@
 
 The `CanceledError: canceled` error was caused by:
 
-1. **TUSK runner couldn't communicate properly** with your services due to missing environment setup
-2. **Test script wasn't executing** because it was trying to run Docker Compose instead of npm scripts
-3. **Polling timeout was too short** and TUSK gave up before tests could complete
-4. **Test file regex didn't match** your actual test files, so no tests were found
+1. **Broken test file regex** in the old config: `"^test/e2e/integration/$"` didn't match any files
+2. **Missing timeout configuration** - TUSK was timing out and canceling the operation
+3. **Short health check timeout** - only 60 seconds wasn't enough
+
+## Why It Worked Before vs Now
+
+**Old Working Config Issues Found:**
+
+- ❌ `testFileRegex: "^test/e2e/integration/$"` - this regex is completely wrong, ends with `$` after `/`
+- ❌ No timeout settings - relied on TUSK defaults
+- ❌ Short health check (60s)
+
+**What Likely Changed in 2 Weeks:**
+
+- 🔄 **TUSK platform updates** - behavior/timing changes
+- 🔄 **GitHub Actions environment updates** - runner performance
+- 🔄 **Network connectivity** - latency between GHA and TUSK servers
+- 🔄 **TUSK timeout policies** - stricter polling timeouts
+- 🔄 **Use-Tusk/test-runner action updates** - newer version with different defaults
+
+**Troubleshooting Strategy:**
+
+1. **Debug Version (`checklist-test.yml`)**:
+   - ✅ Rollback to exact old config
+   - ✅ Added comprehensive debug output
+   - ✅ Test TUSK server connectivity
+   - ✅ Verify Docker/app status
+
+2. **Fallback Version (`checklist-test-fallback.yml`)**:
+   - ✅ Tests 3 different timeout configurations
+   - ✅ Conservative (10min), Aggressive (30min), Default (TUSK default)
+   - ✅ Continue-on-error to test all variations
+
+3. **What to Check:**
+   - Compare debug output with working runs from 2 weeks ago
+   - Check TUSK server response times
+   - Verify if Use-Tusk/test-runner action version changed
 
 ## Testing the Fix
 
