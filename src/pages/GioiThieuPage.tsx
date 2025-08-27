@@ -20,14 +20,14 @@ const GioiThieuPage: React.FC = () => {
           <div className="page-content">
             <div className="page-header">
               <h1>🌟 Giới Thiệu</h1>
-              <p>Về DULICHMETOO - Đơn vị tổ chức tour chuyên nghiệp</p>
+              <p>Về DULICHVIETNAM - Đơn vị tổ chức tour chuyên nghiệp</p>
             </div>
 
             <div className="about-content">
               <div className="about-section">
                 <h2>📖 Câu chuyện của chúng tôi</h2>
                 <p>
-                  DULICHMETOO được thành lập với sứ mệnh mang đến những trải
+                  DULICHVIETNAM được thành lập với sứ mệnh mang đến những trải
                   nghiệm du lịch tuyệt vời nhất cho mọi khách hàng. Với hơn 10
                   năm kinh nghiệm trong ngành du lịch, chúng tôi tự hào là đối
                   tác tin cậy của hàng nghìn du khách.
@@ -119,7 +119,7 @@ const GioiThieuPage: React.FC = () => {
                     <strong>📧 Email:</strong> info@metootravel.com
                   </p>
                   <p>
-                    <strong>🌐 Website:</strong> www.dulichmetoo.com.vn
+                    <strong>🌐 Website:</strong> www.DULICHVIETNAM.com.vn
                   </p>
                 </div>
               </div>

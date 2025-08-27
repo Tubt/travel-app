@@ -34,11 +34,23 @@ module.exports = defineConfig({
       openMode: 0,
     },
 
+    // Clean output - disable color codes and reduce verbosity
+    reporter: "spec",
+    reporterOptions: {
+      displayErrorDetails: true,
+      displayStacktrace: false,
+    },
+
     // Environment variables
     env: {
       environment: "local",
       apiUrl: "http://localhost:3001/api",
       emailDomain: "@metoo.com",
+      // TUSK configuration
+      TUSK_DESKTOP_ONLY: true,
+      TUSK_SKIP_MOBILE: true,
+      TUSK_VIEWPORT_WIDTH: 1280,
+      TUSK_VIEWPORT_HEIGHT: 720,
     },
 
     setupNodeEvents(on, config) {
