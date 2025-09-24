@@ -7,76 +7,131 @@ import "./commands";
 // Import helper functions
 import "./helpers/testHelpers";
 
-// Alternatively you can use CommonJS syntax:
-// require('./commands')
+// ========================================
+// GLOBAL TEST SETUP
+// ========================================
 
-// Global configuration - Handle uncaught exceptions
-Cypress.on("uncaught:exception", (err, runnable) => {
-  // List of errors to ignore
-  const ignoredErrors = [
-    "No session or session expired",
-    "Network Error",
-    "ChunkLoadError",
-    "Loading chunk",
-    "ResizeObserver loop limit exceeded",
-    "Non-Error promise rejection captured",
-  ];
+beforeEach(() => {
+  // Set consistent viewport (default desktop)
+  const width = Cypress.env("VIEWPORT_WIDTH") || 1280;
+  const height = Cypress.env("VIEWPORT_HEIGHT") || 720;
+  cy.viewport(width, height);
 
-  // Check if error message matches any ignored patterns
-  const shouldIgnore = ignoredErrors.some(
-    (ignoredError) =>
-      err.message.includes(ignoredError) || err.name.includes(ignoredError)
-  );
+  // Clean state before each test
+  cy.clearAllCookies();
+  cy.clearAllLocalStorage();
+  cy.clearAllSessionStorage();
 
-  if (shouldIgnore) {
-    console.log("🚫 Ignoring uncaught exception:", err.message);
-    return false; // Prevent test failure
-  }
+  // Visit base URL with reasonable timeout
+  cy.visit("/", { timeout: 20000 });
 
-  // For debugging - log unexpected errors
-  console.error("❌ Unexpected uncaught exception:", err.message);
-  return false; // Still prevent failure, but log for investigation
+  // Wait for page to be interactive
+  cy.get("body").should("be.visible");
 });
 
-// Global before hook
+// Skip mobile tests when running in desktop-only mode
 beforeEach(() => {
-  // Skip mobile tests if TUSK_DESKTOP_ONLY is enabled
-  if (Cypress.env("TUSK_DESKTOP_ONLY")) {
-    // Check if current test is trying to use mobile viewport
-    const currentTest = Cypress.currentTest;
-    if (
-      currentTest.title.toLowerCase().includes("mobile") ||
-      currentTest.title.toLowerCase().includes("320px") ||
-      currentTest.title.toLowerCase().includes("small screen")
-    ) {
-      cy.log("🚫 Skipping mobile test - TUSK_DESKTOP_ONLY enabled");
-      return; // Skip this test
+  if (Cypress.env("DESKTOP_ONLY") === true) {
+    const testTitle = Cypress.currentTest.title.toLowerCase();
+    const isMobileTest = [
+      "mobile",
+      "tablet",
+      "responsive",
+      "320px",
+      "768px",
+      "small screen",
+    ].some((keyword) => testTitle.includes(keyword));
+
+    if (isMobileTest) {
+      cy.log("⏭️ Skipping mobile test in desktop-only mode");
+      return;
     }
   }
-
-  // Set viewport consistently to desktop
-  const viewportWidth = Cypress.env("TUSK_VIEWPORT_WIDTH") || 1280;
-  const viewportHeight = Cypress.env("TUSK_VIEWPORT_HEIGHT") || 720;
-  cy.viewport(viewportWidth, viewportHeight);
-
-  // Clear local storage and cookies before each test
-  cy.clearLocalStorage();
-  cy.clearCookies();
-
-  // Visit the base URL if not already there
-  cy.visit("/");
 });
 
-// Custom assertion messages
-chai.use(function (chai) {
+// ========================================
+// GLOBAL HOOKS
+// ========================================
+
+// Clean up after each test
+afterEach(function () {
+  // Take screenshot on failure
+  if (this.currentTest?.state === "failed") {
+    const testName = this.currentTest.title.replace(/\s+/g, "-");
+    cy.screenshot(`failed-${testName}`, { capture: "fullPage" });
+  }
+});
+
+// ========================================
+// CUSTOM COMMANDS & ASSERTIONS
+// ========================================
+
+// Enhanced text assertion
+chai.use((chai) => {
   chai.Assertion.addMethod("containText", function (expectedText) {
-    const actualText = this._obj.text();
+    const element = this._obj;
+    const actualText = element.text().trim();
+
     this.assert(
       actualText.includes(expectedText),
-      `Expected text "${actualText}" to contain "${expectedText}"`,
-      `Expected text "${actualText}" not to contain "${expectedText}"`,
+      `Expected element to contain text "${expectedText}", but got "${actualText}"`,
+      `Expected element NOT to contain text "${expectedText}", but it was found`,
       expectedText,
       actualText
     );
   });
+
+  // Add visible text assertion
+  chai.Assertion.addMethod("haveVisibleText", function (expectedText) {
+    const element = this._obj;
+
+    this.assert(
+      element.is(":visible") && element.text().trim() === expectedText,
+      `Expected element to be visible with text "${expectedText}"`,
+      `Expected element NOT to be visible with text "${expectedText}"`,
+      expectedText
+    );
+  });
 });
+
+// ========================================
+// UTILITY FUNCTIONS
+// ========================================
+
+// Add global test utilities
+Cypress.Commands.add("waitForPageLoad", () => {
+  cy.get("body").should("be.visible");
+  cy.window().should("have.property", "document");
+});
+
+Cypress.Commands.add("skipOnMobile", () => {
+  cy.window()
+    .its("innerWidth")
+    .then((width) => {
+      if (width < 768) {
+        cy.log("⏭️ Skipping on mobile viewport");
+        return;
+      }
+    });
+});
+
+// ========================================
+// TYPE DECLARATIONS
+// ========================================
+
+declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
+  namespace Cypress {
+    interface Chainable {
+      /**
+       * Wait for page to be fully loaded and interactive
+       */
+      waitForPageLoad(): Chainable<Element>;
+
+      /**
+       * Skip test if running on mobile viewport
+       */
+      skipOnMobile(): Chainable<Element>;
+    }
+  }
+}

@@ -6,7 +6,7 @@ const BannerSlider: React.FC = () => {
   const { currentSlide, nextSlide, prevSlide, goToSlide } = useBannerSlider();
 
   return (
-    <div className="banner-slider">
+    <div className="banner-slide-1">
       <div className="slides-container">
         {bannerImages.map((image, index) => (
           <div
