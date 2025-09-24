@@ -18,7 +18,6 @@ export const useBannerSlider = () => {
     setCurrentSlide(index);
   };
 
-  // Auto slide every 5 seconds
   useEffect(() => {
     const interval = setInterval(() => {
       nextSlide();

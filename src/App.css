@@ -173,7 +173,7 @@
 }
 
 /* Banner Slider Styles */
-.banner-slider {
+.banner-slide-1 {
   height: 60vh;
   position: relative;
   overflow: hidden;
@@ -754,7 +754,7 @@
     display: none;
   }
 
-  .banner-slider {
+  .banner-slide-1 {
     height: 50vh;
   }
 

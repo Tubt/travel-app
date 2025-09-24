@@ -18,7 +18,7 @@ export class HomePage {
     navLinkAbout: '[data-testid="nav-link-about"]',
 
     // Banner slider elements
-    bannerSlider: ".banner-slider",
+    bannerSlider: ".banner-slide-1",
     slides: ".slide",
     nextButton: ".next-btn",
     prevButton: ".prev-btn",

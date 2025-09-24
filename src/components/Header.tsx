@@ -34,7 +34,7 @@ const Header: React.FC = () => {
 
   // Helper function to format phone number for tel: links
   const formatPhoneForTel = (phone: string): string => {
-    return phone.replace(/[\s\-\(\)\+]/g, "");
+    return phone.replace(/[\s\-()+ ]/g, "");
   };
 
   // Handle click outside to close dropdown

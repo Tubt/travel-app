@@ -1,5 +1,6 @@
 services:
   app:
+    image: travel-app:latest
     build:
       context: .
       dockerfile: Dockerfile
@@ -19,12 +20,13 @@ services:
           "--spider",
           "http://localhost:3000",
         ]
-      interval: 30s
-      timeout: 10s
-      retries: 5
-      start_period: 30s
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
 
   cypress:
+    image: travel-app-cypress:latest
     build:
       context: .
       dockerfile: Dockerfile.cypress
@@ -37,6 +39,8 @@ services:
       - CYPRESS_screenshotOnRunFailure=true
       - NO_COLOR=1
       - FORCE_COLOR=0
+      - CYPRESS_PARALLEL=true
+      - CYPRESS_RECORD=false
     volumes:
       - ./test/results:/app/results
     networks:
