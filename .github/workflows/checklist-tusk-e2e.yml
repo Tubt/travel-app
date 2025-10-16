@@ -37,6 +37,8 @@ jobs:
       - name: Start runner
         id: test-action
         uses: Use-Tusk/test-runner@v1
+        env:
+          CYPRESS_baseUrl: "http://app:3000"
         with:
           runId: ${{ github.event.inputs.runId }}
           tuskUrl: ${{ github.event.inputs.tuskUrl }}
@@ -44,7 +46,7 @@ jobs:
           authToken: ${{ secrets.TUSK_AUTH_TOKEN }}
           testFramework: "cypress"
           testFileRegex: "^test/e2e/integration/.*\\.cy\\.ts$"
-          testScript: "docker compose up --build cypress"
+          testScript: "CYPRESS_baseUrl=http://app:3000 docker compose up --build cypress"
 
       - name: Stop services
         if: always()
